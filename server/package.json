@@ -1,0 +1,30 @@
+{
+    "name": "server",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "nodemon node ./bin/www",
+        "lint": "eslint .",
+        "lint:fix": "eslint --fix --ext .js,.jsx .",
+        "dev": "concurrently \"npm run start\" \"cd ../client && npm run serve\""
+    },
+    "dependencies": {
+        "body-parser": "^1.19.2",
+        "cookie-parser": "~1.4.4",
+        "debug": "~2.6.9",
+        "express": "~4.16.1",
+        "http-errors": "~1.6.3",
+        "morgan": "~1.9.1",
+        "mysql": "^2.18.1",
+        "pug": "2.0.0-beta11"
+    },
+    "devDependencies": {
+        "eslint": "^8.9.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^8.4.0",
+        "eslint-plugin-import": "^2.25.4",
+        "eslint-plugin-prettier": "^4.0.0",
+        "nodemon": "^2.0.15",
+        "prettier": "^2.5.1"
+    }
+}
