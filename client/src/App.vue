@@ -6,12 +6,26 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  created() {
+    // 1. 브라우저에서 직접 요청
+    this.corsRequest() 
+    // 2. 개발 서버를 이용해서 프록시 요청
+    // this.proxyRequest()
+  },
+  methods: {
+    corsRequest() {
+      axios.get("/api/users")
+      .then((res) => {
+        console.log('corsRequest res', res)
+      })
+      .catch((error) => {
+        console.log('corsRequest error', error)
+      })
+    },
   }
 }
 </script>
