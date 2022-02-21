@@ -1,9 +1,17 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
-// import LoginPage from '@/components/view/LoginPage.vue';
+import VueRouter from "vue-router";
+import routes from "./routes";
 
-// 플러그인을 실행하기 위해서 필요한 코드
-Vue.use(VueRouter);
+// configure router
+const router = new VueRouter({
+  routes, // short for routes: routes
+  linkExactActiveClass: "active",
+  scrollBehavior: (to) => {
+    if (to.hash) {
+      return {selector: to.hash}
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
+});
 
-// VueRouter로 인스턴스를 생성하고 export default 로 꺼냄.
-export default new VueRouter();
+export default router;

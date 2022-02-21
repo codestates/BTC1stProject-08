@@ -1,42 +1,43 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <notifications></notifications>
+    <router-view :key="$route.fullPath"></router-view>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 
-export default {
-  name: 'App',
-  created() {
-    // 1. 브라우저에서 직접 요청
-    this.corsRequest() 
-    // 2. 개발 서버를 이용해서 프록시 요청
-    // this.proxyRequest()
-  },
-  methods: {
-    corsRequest() {
+  export default {
+    created() {
+      this.corsRequest();
+    },
+    methods: {
+      disableRTL() {
+        if (!this.$rtl.isRTL) {
+          this.$rtl.disableRTL();
+        }
+      },
+      toggleNavOpen() {
+        let root = document.getElementsByTagName('html')[0];
+        root.classList.toggle('nav-open');
+      },
+      corsRequest() {
       axios.get("/api/users")
       .then((res) => {
-        console.log('corsRequest res', res)
+        console.log('#### corsRequest res', res)
       })
       .catch((error) => {
-        console.log('corsRequest error', error)
+        console.log('#### corsRequest error', error)
       })
     },
-  }
-}
+    },
+    mounted() {
+      this.$watch('$route', this.disableRTL, { immediate: true });
+      this.$watch('$sidebar.showSidebar', this.toggleNavOpen)
+    },
+
+  };
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style lang="scss"></style>
