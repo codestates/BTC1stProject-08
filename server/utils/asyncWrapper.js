@@ -7,6 +7,7 @@ const asyncWrapper = (asyncRouteHandler) =>
             const result = await asyncRouteHandler(req, res, next);
             return res.send(result);
         } catch (error) {
+            console.log(error);
             throw new Error(error);
         }
     };

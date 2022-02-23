@@ -6,7 +6,8 @@
              tag="li">
     <a class="nav-link">
       <slot>
-        <i v-if="icon" :class="icon"></i>
+<!--        <i v-if="icon" :class="icon"></i>-->
+        <i><span class="material-icons">{{icon}}</span></i>
         <p>{{name}}</p>
       </slot>
     </a>

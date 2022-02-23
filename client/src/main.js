@@ -25,6 +25,11 @@ Vue.use(BlackDashboard);
 Vue.use(VueRouter);
 Vue.use(RouterPrefetch);
 
+//import material-icon scss
+import 'material-icons/iconfont/material-icons.css';
+//defined as global component
+Vue.component('V-MaterialIcon', require('vue-materials-icon/MaterialIcon').default);
+
 /* eslint-disable no-new */
 new Vue({
   router,

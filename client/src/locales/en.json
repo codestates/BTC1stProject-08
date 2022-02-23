@@ -111,15 +111,18 @@
     ]
   },
   "sidebar": {
-    "title": "Creative Tim",
-    "shortTitle": "CT",
-    "dashboard": "dashboard",
-    "icons": "Icons",
-    "maps": "Maps",
+    "title_wallet": "title_wallet",
+    "title_explorer": "title_explorer",
+    "send": "Send",
+    "cross_chain": "Cross Chain",
+    "manage_keys": "Manage Keys",
     "notifications": "Notifications",
     "userProfile": "User Profile",
     "tableList": "Table List",
-    "typography": "Typography",
-    "rtlSupport": "RTL Support"
+    "typography": "cc",
+    "rtlSupport": "RTL Support",
+    "dashboard": "Send",
+    "icons": "Cross Chain",
+    "maps": "Manage Keys"
   }
 }

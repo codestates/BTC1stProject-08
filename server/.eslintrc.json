@@ -16,6 +16,7 @@
         "object-curly-spacing": 0,
         "indent": [0, 4],
         "no-tabs": 0,
-        "implicit-arrow-linebreak": 0
+        "implicit-arrow-linebreak": 0,
+        "singlequote": 0
     }
 }
