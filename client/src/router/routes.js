@@ -1,57 +1,67 @@
-import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
+import WalletLayout from "@/layout/wallet/WalletLayout.vue";
 // GeneralViews
 import NotFound from "@/pages/NotFoundPage.vue";
 
-// Admin pages
-const Dashboard = () => import(/* webpackChunkName: "dashboard" */"@/pages/Dashboard.vue");
-const Profile = () => import(/* webpackChunkName: "common" */ "@/pages/Profile.vue");
-const Notifications = () => import(/* webpackChunkName: "common" */"@/pages/Notifications.vue");
-const Icons = () => import(/* webpackChunkName: "common" */ "@/pages/Icons.vue");
-const Maps = () => import(/* webpackChunkName: "common" */ "@/pages/Maps.vue");
-const Typography = () => import(/* webpackChunkName: "common" */ "@/pages/Typography.vue");
-const TableList = () => import(/* webpackChunkName: "common" */ "@/pages/TableList.vue");
+// // Admin pages
+// const Dashboard = () => import(/* webpackChunkName: "dashboard" */"@/pages/Dashboard.vue");
+// const Profile = () => import(/* webpackChunkName: "common" */ "@/pages/Profile.vue");
+// const Notifications = () => import(/* webpackChunkName: "common" */"@/pages/Notifications.vue");
+// const Icons = () => import(/* webpackChunkName: "common" */ "@/pages/Icons.vue");
+// const Maps = () => import(/* webpackChunkName: "common" */ "@/pages/Maps.vue");
+// const Typography = () => import(/* webpackChunkName: "common" */ "@/pages/Typography.vue");
+// const TableList = () => import(/* webpackChunkName: "common" */ "@/pages/TableList.vue");
+
+const Wallet = () => import("@/pages/Wallet.vue");
+const CrossChain = () => import("@/pages/CrossChain.vue");
+const ManageKeys = () => import("@/pages/ManageKeys.vue");
+const Login = () => import("@/pages/Login.vue");
 
 const routes = [
   {
     path: "/",
-    component: DashboardLayout,
-    redirect: "/dashboard",
+    component: WalletLayout,
+    redirect: "/",
     children: [
+        {
+          path: "wallet",
+          name: "wallet",
+          component: Wallet
+        },
       {
-        path: "dashboard",
-        name: "dashboard",
-        component: Dashboard
+        path: "cross_chain",
+        name: "cross_chain",
+        component: CrossChain
       },
       {
-        path: "profile",
-        name: "profile",
-        component: Profile
+        path: "manage_keys",
+        name: "manage_keys",
+        component: ManageKeys
       },
       {
-        path: "notifications",
-        name: "notifications",
-        component: Notifications
+        path: "login",
+        name: "login",
+        component: Login
       },
-      {
-        path: "icons",
-        name: "icons",
-        component: Icons
-      },
-      {
-        path: "maps",
-        name: "maps",
-        component: Maps
-      },
-      {
-        path: "typography",
-        name: "typography",
-        component: Typography
-      },
-      {
-        path: "table-list",
-        name: "table-list",
-        component: TableList
-      }
+      // {
+      //   path: "icons",
+      //   name: "icons",
+      //   component: Icons
+      // },
+      // {
+      //   path: "maps",
+      //   name: "maps",
+      //   component: Maps
+      // },
+      // {
+      //   path: "typography",
+      //   name: "typography",
+      //   component: Typography
+      // },
+      // {
+      //   path: "table-list",
+      //   name: "table-list",
+      //   component: TableList
+      // }
     ]
   },
   { path: "*", component: NotFound },

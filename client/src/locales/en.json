@@ -4,12 +4,23 @@
     "dailySales": "Daily Sales",
     "performance": "Performance",
     "simpleTable": "Simple Table",
-    "totalShipments": "Total Shipments",
+    "totalShipments": "X-Chain 은 코인을 받기 위한 주소입니다. 입금할 때마다 주소는 변경됩니다. 이전 주소를 계속 사용할 수 있습니다.",
     "chartCategories": [
-      "Accounts",
-      "Purchases",
-      "Sessions"
+      "X",
+      "P",
+      "C"
     ],
+    "walletAddresses": [
+      "X-Chain",
+      "P-Chain",
+      "C-Chain"
+    ],
+    "Addresses_description": {
+      "X-Chain": "X-Chain 은 코인을 받기 위한 주소입니다. 입금할 때마다 주소는 변경됩니다. 이전 주소를 계속 사용할 수 있습니다.",
+      "P-Chain": "P-Chain 은 스테이킹 보상, cross chain transfers 을 할 수 있습니다.",
+      "C-Chain": "C-Chain 은 이더리움가상머신(EVM)과 상호작용 합니다."
+    },
+
     "tasks": "Tasks({count})",
     "today": "Today",
     "dropdown": {
@@ -116,13 +127,6 @@
     "send": "Send",
     "cross_chain": "Cross Chain",
     "manage_keys": "Manage Keys",
-    "notifications": "Notifications",
-    "userProfile": "User Profile",
-    "tableList": "Table List",
-    "typography": "cc",
-    "rtlSupport": "RTL Support",
-    "dashboard": "Send",
-    "icons": "Cross Chain",
-    "maps": "Manage Keys"
+    "login": "login"
   }
 }
