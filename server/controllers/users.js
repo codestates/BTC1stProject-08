@@ -31,7 +31,7 @@ const createWallet = asyncWrapper(async (req) => {
     await myWallet.sendAvaxX(to, amount);
 
     return {
-        // 여기서 리턴하면 response 갑니다..
+        // 여기서 리턴하면 response 갑니다...
         status: 200,
         message: '성공',
         data: {},
