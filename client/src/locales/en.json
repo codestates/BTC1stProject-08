@@ -20,8 +20,11 @@
       "P-Chain": "P-Chain 은 스테이킹 보상, cross chain transfers 을 할 수 있습니다.",
       "C-Chain": "C-Chain 은 이더리움가상머신(EVM)과 상호작용 합니다."
     },
-
-    "tasks": "Tasks({count})",
+    "sendWalletAddresses": [
+      "X-Chain",
+      "C-Chain"
+    ],
+    "sourceChain": "Source Chain",
     "today": "Today",
     "dropdown": {
       "action": "Action",
