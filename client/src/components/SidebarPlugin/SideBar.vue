@@ -11,7 +11,7 @@
         <a aria-label="sidebar mini logo"
            class="simple-text logo-mini">
         </a>
-        <a class="simple-text logo-normal" href="/">
+        <a class="simple-text logo-normal" @click="$router.push('/')">
           {{title_wallet}}
         </a>
       </div>
@@ -132,3 +132,8 @@
     }
   };
 </script>
+<style>
+.logo-normal {
+  cursor: pointer;
+}
+</style>

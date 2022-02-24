@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-4 px-md-1">
         <h5>Source Chain</h5>
-        <select class="form-control" aria-label="Default select example">
+        <select class="form-control" aria-label="Default select example" :value="sourceIndex">
           <option value="0">X Chain</option>
           <option value="1">P Chain</option>
           <option value="2">C Chain</option>
@@ -13,7 +13,7 @@
     <div class="row">
       <div class="col-md-4 px-md-1">
         <h5>Destination Chain</h5>
-        <select class="form-control" aria-label="Default select example">
+        <select class="form-control" aria-label="Default select example" :value="targetIndex">
           <option value="0">X Chain</option>
           <option value="2">C Chain</option>
         </select>
@@ -45,12 +45,24 @@
 </template>
 <script>
   export default {
-    props: {
-      model: {
-        type: Object,
-        default: () => {
-          return {};
-        }
+    data() {
+      return {
+        indexs: [
+          {
+            value: 0,
+            label: 'X Chain',
+          },
+          {
+            value: 0,
+            label: 'X Chain',
+          },
+          {
+            value: 0,
+            label: 'X Chain',
+          },
+        ],
+        sourceIndex: 0,
+        targetIndex: 1,
       }
     }
   }
