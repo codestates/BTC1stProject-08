@@ -32,12 +32,14 @@
     </div>
     <div class="row">
       <div class="col-md-5 px-md-1">
-        <label>
-          Gas Price (GWEI) <br />
-          <small>Adjusted automatically according to network load.</small>
-        </label>
-        <base-input placeholder="xxx"
-                    v-model="gasPrice">
+        <base-input>
+          <label>MEMO(Optional)</label>
+          <textarea rows="4" cols="80"
+                    class="form-control"
+                    placeholder="Here can be your description"
+                    v-model="memo">
+
+              </textarea>
         </base-input>
       </div>
     </div>
@@ -49,21 +51,21 @@
       <label>Total AVAX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
       <p>10</p>
     </div>
-    <base-button slot="footer" type="primary" fill>Save</base-button>
+    <base-button :loading = "isLoading" slot="footer" type="primary" @click="deposit">Save</base-button>
   </card>
 </template>
 <script>
-import {BN, MnemonicWallet, setNetwork, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
+import {setNetwork, MnemonicWallet, BN, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
 
 export default {
-    name: 'SendFormC',
+    name: 'SendFormX',
     data() {
       return {
         isLoading: false,
-        amount: 100,
+        amount: '100',
         token: 'AVAX',
         to_address: 'TAVAXsdf87sdfskjdfhskjdfsdfs',
-        gasPrice: 31,
+        memo: 'Do not be scared of the truth because we need to restart the human foundation in truth And I l',
       };
     },
     methods: {
@@ -82,9 +84,7 @@ export default {
           // const balance = myWallet.balanceX;
 
           const amount = new BN(this.amount);
-          const gasPrice = new BN(this.gasPrice);
-          const gasLimit = 0;
-          await myWallet.sendAvaxC(this.to_address, amount, gasPrice, gasLimit);
+          await myWallet.sendAvaxX(this.to_address, amount, this.memo);
         } catch (error) {
           console.info(error);
           this.isLoading = false;
