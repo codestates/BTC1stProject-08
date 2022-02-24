@@ -9,6 +9,8 @@
         "dev": "concurrently \"npm run start\" \"cd ../client && npm run serve\""
     },
     "dependencies": {
+        "@avalabs/avalanche-wallet-sdk": "^0.14.5",
+        "avalanche": "^3.12.0",
         "body-parser": "^1.19.2",
         "concurrently": "^7.0.0",
         "cookie-parser": "~1.4.4",

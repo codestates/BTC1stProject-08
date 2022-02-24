@@ -2,9 +2,10 @@
   <div class="wrapper">
     <side-bar>
       <template slot="links">
-        <sidebar-link to="/dashboard" :name="$t('sidebar.send')" icon="send"/>
-        <sidebar-link to="/notifications" :name="$t('sidebar.cross_chain')" icon="currency_exchange"/>
-        <sidebar-link to="/profile" :name="$t('sidebar.manage_keys')" icon="qr_code_2"/>
+        <sidebar-link to="/wallet" :name="$t('sidebar.send')" icon="send"/>
+        <sidebar-link to="/cross_chain" :name="$t('sidebar.cross_chain')" icon="currency_exchange"/>
+        <sidebar-link to="/manage_keys" :name="$t('sidebar.manage_keys')" icon="qr_code_2"/>
+        <sidebar-link to="/login" :name="$t('sidebar.login')" icon="qr_code_2"/>
       </template>
     </side-bar>
     <div class="main-panel">
