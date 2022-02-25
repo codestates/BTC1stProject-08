@@ -1,9 +1,18 @@
 <template>
-  <div class="m-auto">
+  <div class="m-auto">     
     <div class="col-lg-12" style="height:600px">
-      <card type="tasks" style="height:100%">
+      <card type="tasks" :header-classes="{'text-right': isRTL}" style="height:100%">
         <template slot="header">
+          <base-dropdown menu-on-right=""
+                              tag="div"
+                              title-classes="btn btn-link btn-icon"
+                              aria-label="Settings menu"
+                              >
+            <i slot="title" class="tim-icons icon-settings-gear-63"></i>
+            <a class="dropdown-item" href="#pablo">{{$t('dashboard.dropdown.action')}}</a>
+          </base-dropdown>
         </template>
+            
         <div class="m-auto" style="height : 100%" >
           <div class="low" style="display:flex; height:99%">
                   <div style="width: 50%">
@@ -23,7 +32,7 @@
                       </div>
                       <div style="text-align:center; height: 20%">
                         <!-- <base-button v-on:click="toSignIn">로그인</base-button>  -->
-                        <base-button :loading="isLoginLoading" type="primary" @click="toSignIn">로그인</base-button>
+                        <base-button :loading = "this.$store.state.isLoading" type="primary" @click="toSignIn">로그인</base-button>
                       </div>
                     </card>
                   </div>                
@@ -47,7 +56,7 @@
                 </div>
                 <div style="text-align:center">
                   <!-- <base-button v-on:click="toSignUp">새로운 지갑 생성</base-button>  -->
-                  <base-button :loading = "isLoading" type="primary" @click="toSignUp">새로운 지갑 생성</base-button>
+                  <base-button :loading = "this.$store.state.isLoading" type="primary" @click="toSignUp">새로운 지갑 생성</base-button>
                 </div>
               </card>
             </div>
@@ -58,44 +67,38 @@
   </div>
 </template>
 <script>
-  import BaseButton from '@/components/BaseButton';
-  import { MnemonicWallet } from "@avalabs/avalanche-wallet-sdk";
+import BaseButton from '../../components/BaseButton.vue';
+import {setNetwork, MnemonicWallet, BN, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
+import * as Network from '@avalabs/avalanche-wallet-sdk';
 
   export default {
     components: {
-      BaseButton,
-    },
-    mounted() {
-      if (this.$store.state.isSignIn) {
-        this.$router.back();
-      }
+        BaseButton
     },
     data() {
       return {
         mnemonic: '',
-        isLoginLoading: false,
+        avaxNet: {},
+      }
+    },
+    computed: {
+      enableRTL() {
+        return this.$route.query.enableRTL;
+      },
+      isRTL() {
+        return this.$rtl.isRTL;
+      },
+      bigLineChartCategories() {
+        return this.$t('dashboard.chartCategories');
+      },
+      walletAddresses() {
+        return this.$t('dashboard.walletAddresses');
       }
     },
     methods: {
-      async toSignIn() {
-        this.isLoginLoading = true;
-        const invalidMnemonic = this.mnemonic.split(' ').length === 24;
-        if (!invalidMnemonic) {
-          alert('유효하지 않은 니모닉입니다.');
-        } else {
-          try {
-            const wallet = await MnemonicWallet.fromMnemonic(this.mnemonic);
-            await wallet.resetHdIndices();
-            await wallet.updateUtxosX();
-
-            this.$store.commit('setWallet', wallet);
-            this.$router.push('/wallet');
-          } catch(e) {
-            alert('로그인에 실패하였습니다. 귀하의 니모닉을 다시 확인해주세요.');
-          }
-        }
-
-        this.isLoginLoading = false;
+      async toSignIn(){
+        this.$store.state.isLoading  = true;
+        await this.$store.commit('doSignIn',this.mnemonic);
       },
       async toSignUp(){
         try{
@@ -116,6 +119,20 @@
         }
       }
     },
+    mounted() {
+      this.i18n = this.$i18n;
+      if (this.enableRTL) {
+        this.i18n.locale = 'ar';
+        this.$rtl.enableRTL();
+      }
+      this.initBigChart(0);
+    },
+    beforeDestroy() {
+      if (this.$rtl.isRTL) {
+        this.i18n.locale = 'en';
+        this.$rtl.disableRTL();
+      }
+    }
   };
 </script>
 <style>
