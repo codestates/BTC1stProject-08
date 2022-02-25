@@ -69,6 +69,11 @@
       if (this.$store.state.isSignIn) {
         this.$router.back();
       }
+
+      this.$nextTick(function () {
+        this.$store.commit('setNetwork','testnet');
+        // 전체 화면내용이 렌더링된 후에 아래의 코드가 실행됩니다.
+      })
     },
     data() {
       return {
@@ -85,7 +90,6 @@
         } else {
           try {
             const wallet = await this.$store.state.currentNetwork.MnemonicWallet.fromMnemonic(this.mnemonic);
-            wallet.getAvaxBalance()
             await wallet.resetHdIndices();
             await wallet.updateUtxosX();
             this.$store.commit('setWallet', wallet);
@@ -101,14 +105,6 @@
         await this.$router.push('/register');
       }
     },
-    mounted() {
-      this.$nextTick(function () {
-        this.$store.commit('setNetwork','testnet');
-        // 전체 화면내용이 렌더링된 후에 아래의 코드가 실행됩니다.
-      })
-    },
-    beforeDestroy() {
-    }
   };
 </script>
 <style>

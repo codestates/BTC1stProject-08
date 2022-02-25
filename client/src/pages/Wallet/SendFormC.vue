@@ -88,7 +88,7 @@ export default {
     },
   },
   methods: {
-    async deposit(message) {
+    async deposit() {
       try {
         if(this.amount === null || this.amount === '' || this.amount < 0.01) {
           alert('0.01 이상의 값을 입력해주세요');
