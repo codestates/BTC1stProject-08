@@ -32,7 +32,6 @@
                     class="form-control"
                     placeholder="Here can be your description"
                     v-model="memo">
-
               </textarea>
         </base-input>
       </div>

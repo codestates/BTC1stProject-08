@@ -59,7 +59,7 @@
 </template>
 <script>
   import BaseButton from '@/components/BaseButton';
-  import { MnemonicWallet } from "@avalabs/avalanche-wallet-sdk";
+  import {MnemonicWallet} from "@avalabs/avalanche-wallet-sdk";
 
 
   export default {
@@ -89,7 +89,6 @@
             const wallet = await MnemonicWallet.fromMnemonic(this.mnemonic);
             await wallet.resetHdIndices();
             await wallet.updateUtxosX();
-
             this.$store.commit('setWallet', wallet);
             this.$router.push('/wallet');
           } catch(e) {

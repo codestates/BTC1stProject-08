@@ -10,7 +10,7 @@
           <div class="col-1"></div>
           <div class="col-md-4">
             <label>Available (X)</label>
-            <h4>1.899000001 AVAX</h4>
+            <h4>{{ availableX }} AVAX</h4>
             <label>Available (P)</label>
             <h4>1.899000001 AVAX</h4>
             <label>Available (C)</label>
@@ -34,7 +34,7 @@
   </div>
 </template>
 <script>
-import {MnemonicWallet, setNetwork, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
+import {MnemonicWallet, bnToAvaxX } from "@avalabs/avalanche-wallet-sdk";
 
 export default {
   name: "Balance",
@@ -43,8 +43,8 @@ export default {
   data() {
     return {
       balance: {
-        availableX: 0,
-        availableP: 0,
+        // availableX: this.$store.state.wallet.(),
+        // availableP: 0,
         availableC: 0,
       },
       locked: {
@@ -56,39 +56,35 @@ export default {
     }
   },
   computed: {
+    availableX() {
 
+      const result = this.$store.state.wallet.getAvaxBalanceX();
+      const xAvax = bnToAvaxX(result.unlocked);
+      const xAvax2 = bnToAvaxX(result.locked);
+      console.log(xAvax, xAvax2);
+      return xAvax;
+    },
   },
   methods: {
     async getBalance() {
       const mnemonic = "dust egg camera liberty drift grow mandate middle garment toy make gravity code bag toy tortoise gorilla bomb jar limb main habit boil truth";
       const myWallet = MnemonicWallet.fromMnemonic(mnemonic);
-      const balanceX = myWallet.balanceX;
-      console.log("balanceX", balanceX);
       // const addressP = myWallet.;
       // const addressC = myWallet.getAddressC();
       //
       // this.balance.availableX = addressX.balanceX;
-
-      setNetwork(TestnetConfig);
-
     }
 
   },
   mounted() {
-    console.log("mounted...")
     this.getBalance();
-
   },
   beforeDestroy() {
 
   }
 };
 </script>
-<script>
-export default {
-  name: "Balance"
-}
-</script>
+
 
 <style scoped>
 

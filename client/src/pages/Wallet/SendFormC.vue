@@ -97,7 +97,6 @@ export default {
         }
         this.isLoading = true;
         const myWallet = this.$store.state.wallet;
-        setNetwork(this.$store.state.currentNetwork);
         await myWallet.resetHdIndices();
         await myWallet.updateUtxosX();
         const amount = numberToBNAvaxC(this.amount);
