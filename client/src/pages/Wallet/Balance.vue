@@ -12,9 +12,9 @@
             <label>Available (X)</label>
             <h4>{{ availableX }} AVAX</h4>
             <label>Available (P)</label>
-            <h4>1.899000001 AVAX</h4>
+            <h4>{{ availableP }} AVAX</h4>
             <label>Available (C)</label>
-            <h4>1.899000001 AVAX</h4>
+            <h4>{{ availableC }} AVAX</h4>
           </div>
           <div class="col-md-4">
             <label>Locked (X)</label>
@@ -34,54 +34,30 @@
   </div>
 </template>
 <script>
-import {MnemonicWallet, bnToAvaxX } from "@avalabs/avalanche-wallet-sdk";
-
 export default {
   name: "Balance",
   components: {
   },
   data() {
     return {
-      balance: {
-        // availableX: this.$store.state.wallet.(),
-        // availableP: 0,
-        availableC: 0,
-      },
-      locked: {
-        lockedX: 0,
-        lockedP: 0,
-        lockedC: 0,
-      },
-      staking: 0
     }
   },
   computed: {
     availableX() {
-
-      const result = this.$store.state.wallet.getAvaxBalanceX();
-      const xAvax = bnToAvaxX(result.unlocked);
-      const xAvax2 = bnToAvaxX(result.locked);
-      console.log(xAvax, xAvax2);
-      return xAvax;
+      return this.$store.state.balances.unlocked.X;
+    },
+    availableC() {
+      return this.$store.state.balances.unlocked.C;
+    },
+    availableP() {
+      return this.$store.state.balances.unlocked.P;
     },
   },
   methods: {
-    async getBalance() {
-      const mnemonic = "dust egg camera liberty drift grow mandate middle garment toy make gravity code bag toy tortoise gorilla bomb jar limb main habit boil truth";
-      const myWallet = MnemonicWallet.fromMnemonic(mnemonic);
-      // const addressP = myWallet.;
-      // const addressC = myWallet.getAddressC();
-      //
-      // this.balance.availableX = addressX.balanceX;
-    }
-
   },
   mounted() {
-    this.getBalance();
+    this.$store.commit('refreshBalance');
   },
-  beforeDestroy() {
-
-  }
 };
 </script>
 
