@@ -51,7 +51,7 @@ export default {
     data() {
       return {
         isLoading: false,
-        amount: 0.01,
+        amount: 0.00,
         to_address: '',
         memo: '',
       };
@@ -69,7 +69,7 @@ export default {
           this.isLoading = false;
           alert('성공적으로 전송이 완료되었습니다.');
         } catch (error) {
-          console.info(error);
+          alert('전송이 실패했습니다.' + error);
           this.isLoading = false;
         }
       },
