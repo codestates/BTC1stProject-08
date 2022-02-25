@@ -60,9 +60,6 @@
       isXChain() {
         return this.activeIndex === 0;
       },
-      walletAddresses() {
-        return this.$t('dashboard.walletAddresses');
-      },
       chanTypes() {
         return [ChainType.xChain, ChainType.cChain];
       },

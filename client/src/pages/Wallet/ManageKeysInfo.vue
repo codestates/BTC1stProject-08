@@ -2,11 +2,11 @@
 
   <card>
     <div class="card card-nav-tabs">
-      <div class="card-header card-header-success">
-        Active Keys
-      </div>
+<!--      <div class="card-header card-header-success" >-->
+        <p>Active Keys</p>
+<!--      </div>-->
       <div>
-        <base-alert type="default">
+<!--        <base-alert type="default">-->
           <div class="row">
             <div class="col-md">
                 <!-- <div class="material-icons">qr_code_2</div> -->
@@ -19,7 +19,7 @@
               <base-button @click="modal3 = true">View C Chain Private Key</base-button>
             </div>
           </div>
-        </base-alert>
+<!--        </base-alert>-->
       </div>
     </div>
 
