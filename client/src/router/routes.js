@@ -20,7 +20,6 @@ const routes = [
   {
     path: "/",
     component: WalletLayout,
-    redirect: "/wallet",
     children: [
         {
           path: "wallet",

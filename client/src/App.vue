@@ -6,11 +6,13 @@
 </template>
 
 <script>
-import axios from 'axios'
-
+  // import axios from 'axios'
   export default {
     created() {
-      this.corsRequest();
+      // this.corsRequest();
+      if (!this.$store.state.isSignIn) {
+        this.$router.push('/login');
+      }
     },
     methods: {
       disableRTL() {
@@ -22,19 +24,19 @@ import axios from 'axios'
         let root = document.getElementsByTagName('html')[0];
         root.classList.toggle('nav-open');
       },
-      corsRequest() {
-      axios.get("/api/users")
-      .then((res) => {
-        console.log('#### corsRequest res', res)
-      })
-      .catch((error) => {
-        console.log('#### corsRequest error', error)
-      })
-    },
+      // corsRequest() {
+      //   axios.get("/api/users")
+      //   .then((res) => {
+      //     console.log('#### corsRequest res', res)
+      //   })
+      //   .catch((error) => {
+      //     console.log('#### corsRequest error', error)
+      //   })
+      // },
     },
     mounted() {
       this.$watch('$route', this.disableRTL, { immediate: true });
-      this.$watch('$sidebar.showSidebar', this.toggleNavOpen)
+      this.$watch('$sidebar.showSidebar', this.toggleNavOpen);
     },
 
   };

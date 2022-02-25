@@ -5,7 +5,6 @@
         <sidebar-link v-if="isLogin" to="/wallet" :name="$t('sidebar.send')" icon="send"/>
         <sidebar-link v-if="isLogin" to="/cross_chain" :name="$t('sidebar.cross_chain')" icon="currency_exchange"/>
         <sidebar-link v-if="isLogin" to="/manage_keys" :name="$t('sidebar.manage_keys')" icon="qr_code_2"/>
-        <sidebar-link v-if="isLogin" to="/login" :name="$t('sidebar.login')" icon="qr_code_2"/>
       </template>
     </side-bar>
     <div class="main-panel">
@@ -34,7 +33,7 @@ export default {
   },
   computed: {
     isLogin() {
-      return true;
+      return this.$store.state.isSignIn;
     },
   },
   methods: {
