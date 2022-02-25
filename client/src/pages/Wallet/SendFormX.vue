@@ -9,10 +9,12 @@
 <!--        </base-input>-->
 <!--      </div>-->
       <div class="col-md-4 px-md-1">
-        <base-input label="Amount"
-                  placeholder="Amount"
-                  v-model="amount">
-        </base-input>
+            <label>Amount</label>
+            <input class="form-control"
+                   placeholder="0.01"
+                   type="number"
+                   step="0.01"
+                   v-model="amount">
       </div>
       <div class="col-md-1 pl-md-1">
         <base-input label="Token"
@@ -51,7 +53,7 @@
       <label>Total AVAX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
       <p>10</p>
     </div>
-    <base-button :loading = "isLoading" slot="footer" type="primary" @click="deposit">Save</base-button>
+    <base-button :loading = "isLoading" slot="footer" type="primary" @click="deposit">Send</base-button>
   </card>
 </template>
 <script>
@@ -62,10 +64,12 @@ export default {
     data() {
       return {
         isLoading: false,
-        amount: '100',
+        amount: 0.01,
         token: 'AVAX',
-        to_address: 'TAVAXsdf87sdfskjdfhskjdfsdfs',
-        memo: 'Do not be scared of the truth because we need to restart the human foundation in truth And I l',
+        to_address: '',
+        memo: '',
+        transactionFee: 0,
+        totalAvax: 0
       };
     },
     methods: {
@@ -77,13 +81,8 @@ export default {
           setNetwork(TestnetConfig);
           await myWallet.resetHdIndices();
           await myWallet.updateUtxosX();
-          // const addressX = myWallet.getAddressX();
-          // const addressP = myWallet.getAddressP();
-          // const addressC = myWallet.getAddressC();
-
-          // const balance = myWallet.balanceX;
-
           const amount = new BN(this.amount);
+          // this.transactionFee = transa
           await myWallet.sendAvaxX(this.to_address, amount, this.memo);
         } catch (error) {
           console.info(error);
