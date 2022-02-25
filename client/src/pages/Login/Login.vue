@@ -2,8 +2,6 @@
   <div class="m-auto">
     <div class="col-lg-12" style="height:600px">
       <card type="tasks" style="height:100%">
-        <template slot="header">
-        </template>
         <div class="m-auto" style="height : 100%" >
           <div class="low" style="display:flex; height:99%">
                   <div style="width: 50%">
@@ -26,10 +24,10 @@
                         <base-button :loading="isLoginLoading" type="primary" @click="toSignIn">로그인</base-button>
                       </div>
                     </card>
-                  </div>                
+                  </div>
                   <div style="width: 50%">
               <card type="chart" style=" height: 100%">
-                <div style="height: 80%"> 
+                <div style="height: 80%">
                   <div style="height:100%; margin:5px 5px 10px 10px">
                     <h4>
                       아발란체 Avalanche(AVAX)
@@ -62,6 +60,7 @@
   import { MnemonicWallet } from "@avalabs/avalanche-wallet-sdk";
 
   export default {
+    name: 'Login',
     components: {
       BaseButton,
     },
@@ -89,7 +88,7 @@
             await wallet.updateUtxosX();
 
             this.$store.commit('setWallet', wallet);
-            this.$router.push('/wallet');
+            await this.$router.push('/wallet');
           } catch(e) {
             alert('로그인에 실패하였습니다. 귀하의 니모닉을 다시 확인해주세요.');
           }
@@ -97,23 +96,8 @@
 
         this.isLoginLoading = false;
       },
-      async toSignUp(){
-        try{
-          let newMnemonic = MnemonicWallet.generateMnemonicPhrase()
-          let myWallet = MnemonicWallet.fromMnemonic(newMnemonic)
-          console.log(`my new mnemonic ${newMnemonic}`);
-          console.log(myWallet)
-          let addressX = myWallet.getAddressX()
-          console.log(`xaddress :  ${addressX}`)
-          let addressP = myWallet.getAddressP()
-          console.log(`paddress :  ${addressP}`)
-          let addressC = myWallet.getAddressC()
-          console.log(`caddress :  ${addressC}`)
-        }catch(e)
-        {
-          console.log(e)
-          console.log('회원가입 실패');
-        }
+      async toSignUp() {
+        await this.$router.push('/register');
       }
     },
   };
