@@ -14,7 +14,7 @@ import NotFound from "@/pages/NotFoundPage.vue";
 const Wallet = () => import("@/pages/Wallet.vue");
 const CrossChain = () => import("@/pages/CrossChain.vue");
 const ManageKeys = () => import("@/pages/ManageKeys.vue");
-const Login = () => import("@/pages/Login.vue");
+const Login = () => import("@/pages/Login/Login.vue");
 
 const routes = [
   {
@@ -38,8 +38,8 @@ const routes = [
         component: ManageKeys
       },
       {
-        path: "login",
-        name: "login",
+        path: "Login",
+        name: "Login",
         component: Login
       },
       // {
