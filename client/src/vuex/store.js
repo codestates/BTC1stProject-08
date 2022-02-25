@@ -39,27 +39,6 @@ export const store = new Vuex.Store({
                 await state.Network.setNetwork(Network.MainnetConfig);
             }
         },
-        async doSignIn(state,mnemonic){
-            console.log(mnemonic)
-            state.isLoding=true;
-            if( mnemonic.split(' ').length === 24) {          
-                try{
-                    state.wallet = await state.Network.MnemonicWallet.fromMnemonic(mnemonic);
-                    await state.wallet.resetHdIndices()
-                    state.isSignIn = true;
-                    console.log(state.wallet);
-                }catch(e){
-                    state.isSignIn = false;
-                    console.log(e)
-                    console.log('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
-                }
-            }
-            else {
-                console.log(this.mnemonic.split(' '));
-            }
-            state.isLoding = false;
-        }
-        ,
         setWallet(state, wallet){
             state.isSignIn = true;
             state.wallet = wallet;
