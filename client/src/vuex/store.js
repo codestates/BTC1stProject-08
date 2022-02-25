@@ -1,14 +1,14 @@
 // store.js
 import Vue from 'vue';
 import Vuex from 'vuex';
-const Network = require('@avalabs/avalanche-wallet-sdk');
+const { TestnetConfig, MainnetConfig } = require('@avalabs/avalanche-wallet-sdk');
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
         networkId: 'testnet',
-        Network: Network,
+        currentNetwork: TestnetConfig,
         wallet: {},
         myWallet: {
             addressX: '',
@@ -27,16 +27,13 @@ export const store = new Vuex.Store({
     },
     mutations: {
         async setNetwork(state){
-            /**
-             *  Avalnche 네트워크 셋팅 Mutate
-             *
-             */
-            if(state.networkId === 'testnet'){
-                await state.Network.setNetwork(Network.TestnetConfig);
-            }
-
-            if(state.networkId === 'mainnet'){
-                await state.Network.setNetwork(Network.MainnetConfig);
+            switch (state.networkId) {
+                case 'mainnet':
+                    this.state.currentNetwork = MainnetConfig;
+                    return;
+                default:
+                    this.state.currentNetwork = TestnetConfig;
+                    return;
             }
         },
         setWallet(state, wallet){
