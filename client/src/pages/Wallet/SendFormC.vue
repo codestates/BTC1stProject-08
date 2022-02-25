@@ -1,13 +1,6 @@
 <template>
   <card>
     <div class="row">
-<!--      <div class="col-md-10 pr-md-1">-->
-<!--        <base-input label="Amount"-->
-<!--                  placeholder="Amount"-->
-<!--                  v-model="model.amount"-->
-<!--                  disabled>-->
-<!--        </base-input>-->
-<!--      </div>-->
       <div class="col-md-4 px-md-1">
         <base-input label="Amount"
                   placeholder="Amount"
