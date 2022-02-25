@@ -83,7 +83,6 @@
   </card>
 </template>
 <script>
-  import {MnemonicWallet, setNetwork, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
   import {BaseAlert, Modal, BaseTable} from '../../../src/components';
 
 
@@ -96,14 +95,8 @@
     data() {
       return {
         activekeyX: "",
-        balance: "0.123123123",
+        balance: this.$store.state.balances.unlocked.X,
         hdaddress: "",
-        // currentId: 1,
-        // hdlist: [
-        //   { id:1, label: 'Internal', content: 'inter'},
-        //   { id:2, label: 'External', content: 'exter'},
-        //   { id:3, label: 'P Chain', content: 'pchain'},
-        // ],
         mymnemonic: "",
         privatekeyC: "",
         modal1: false,
@@ -112,30 +105,6 @@
         internerhd : "",
         externerhd : "",
         platformhd : "",
-      //    columns: ["id", "name", "job", "since", "salary", "actions"],
-      // tableData: [
-      //   {
-      //     id: 1,
-      //     name: "	Andrew Mike",
-      //     salary: "€ 99,225	",
-      //     job: "Develop",
-      //     since: 2013,
-      //   },
-      //   {
-      //     id: 2,
-      //     name: "	John Doe",
-      //     salary: "€ 89,241",
-      //     job: "Design",
-      //     since: 2012,
-      //   },
-      //   {
-      //     id: 3,
-      //     name: "Alex Mike",
-      //     salary: "€ 92,144	",
-      //     job: "Design",
-      //     since: 2010
-      //   }
-      // ]
       }
     },
     computed: {
@@ -145,42 +114,20 @@
     },
     methods: {
       initWalletAddress() {
-            console.log("function start")
-            const mnemonic = "stomach virus coil teach once truck gap clog hip claim loyal marble sustain zoo pink ripple kind stumble air chronic must void capable area";
-            const myWallet = MnemonicWallet.fromMnemonic(mnemonic);
-            // console.log('myWallet', myWallet);
-            setNetwork(TestnetConfig);
-            // console.log("balanceX", myWallet.getAvaxBalanceX());
+            let myWallet = this.$store.state.wallet;
 
-            const addressX = myWallet.getAddressX();
-            const addressP = myWallet.getAddressP();
-            const privatekeyC = myWallet.getEvmPrivateKeyHex();
-            const mnemonic_logon = myWallet.getMnemonic();
+            this.internalhd = myWallet.getInternalAddressesXSync();
+            this.externalhd = myWallet.getExternalAddressesXSync();
+            this.platformhd = myWallet.getExternalAddressesPSync();
 
-            const internalhd = myWallet.getInternalAddressesXSync();
-            const externalhd = myWallet.getExternalAddressesXSync();
-            const platformhd = myWallet.getExternalAddressesPSync();
-
-            this.internalhd = internalhd;
-            this.externalhd = externalhd;
-            this.platformhd = platformhd;
-            // console.log(internalhd)
-            // console.log(addressX)
-            // console.log(addressP)
-
-            // const test = myWallet.getExternalAddressesPSync();
-            // console.log("00 ", test)
-
-            this.activekeyX = addressX;
-            this.privatekeyC = privatekeyC;
-            this.mymnemonic = mnemonic_logon;
+            this.activekeyX = myWallet.getAddressX();
+            this.privatekeyC = myWallet.getEvmPrivateKeyHex();;
+            this.mymnemonic = myWallet.getMnemonic();
 
           },
     },
     mounted(){
-      console.log("start");
       this.initWalletAddress();
-      console.log("end");
     },
   
   }
