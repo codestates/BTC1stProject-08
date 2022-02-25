@@ -10,14 +10,6 @@ export const store = new Vuex.Store({
         networkId: 'testnet',
         Network: Network,
         wallet: {},
-        myWallet: {
-            addressX: '',
-            xBalance: 0,
-            addressP: '',
-            pBalance: 0,
-            addressC: '',
-            cBalance: 0,
-        },
         isSignIn: false
     },
     getters: {
@@ -26,18 +18,21 @@ export const store = new Vuex.Store({
         },
     },
     mutations: {
-        async setNetwork(state){
+        async setNetwork(state,netid){
             /**
              *  Avalnche 네트워크 셋팅 Mutate
              *
              */
-            if(state.networkId === 'testnet'){
+            if(netid === 'testnet'){
                 await state.Network.setNetwork(Network.TestnetConfig);
+                state.networkId = netid;
             }
-
-            if(state.networkId === 'mainnet'){
+            
+            if(netid === 'mainnet'){
                 await state.Network.setNetwork(Network.MainnetConfig);
+                state.networkId = netid;
             }
+            console.log(`네트워크 상태 :  ${state.networkId}`)
         },
         setWallet(state, wallet){
             state.isSignIn = true;

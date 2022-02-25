@@ -58,7 +58,7 @@
 <script>
 import BaseButton from '../../components/BaseButton.vue';
 import { MnemonicWallet }  from "@avalabs/avalanche-wallet-sdk";
-
+import BaseAlertVue from '../../components/BaseAlert.vue';
 
   export default {
     name: 'Login',
@@ -68,6 +68,7 @@ import { MnemonicWallet }  from "@avalabs/avalanche-wallet-sdk";
     data() {
       return {
         mnemonic: '',
+        isLoading: false,
       }
     },
     computed: {
@@ -84,7 +85,7 @@ import { MnemonicWallet }  from "@avalabs/avalanche-wallet-sdk";
     methods: {      
       async doSignIn(){
         console.log(this.mnemonic)
-        this.isLoding=true;
+        this.isLoading=true;
         if( this.mnemonic.split(' ').length === 24) {          
             try{
                 const wallet = new MnemonicWallet(this.mnemonic);
@@ -92,33 +93,27 @@ import { MnemonicWallet }  from "@avalabs/avalanche-wallet-sdk";
                 this.$store.commit('setWallet', wallet);
                 await this.$router.push('/wallet');
             }catch(e){
-                console.log('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
+                alert('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
                 console.log(e)
             }
         }
         else {
             console.log(this.mnemonic.split(' '));
-            console.log('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
+            alert('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
         }
-        this.isLoding = false;
+        this.isLoading = false;
       },
       async toSignUp() {
         await this.$router.push('/register');
       }
     },
     mounted() {
-      this.i18n = this.$i18n;
-      if (this.enableRTL) {
-        this.i18n.locale = 'ar';
-        this.$rtl.enableRTL();
-      }
-      this.initBigChart(0);
+      this.$nextTick(function () {
+        this.$store.commit('setNetwork','testnet');
+        // 전체 화면내용이 렌더링된 후에 아래의 코드가 실행됩니다.
+      })
     },
     beforeDestroy() {
-      if (this.$rtl.isRTL) {
-        this.i18n.locale = 'en';
-        this.$rtl.disableRTL();
-      }
     }
   };
 </script>
