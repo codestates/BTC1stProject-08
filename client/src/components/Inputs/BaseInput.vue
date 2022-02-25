@@ -3,7 +3,7 @@
        :class="{
           'input-group': hasIcon,
           'input-group-focus': focused
-       }">
+       }" style="heigth:800px">
     <slot name="label">
       <label v-if="label" class="control-label">
         {{label}}
@@ -58,7 +58,7 @@
     },
     model: {
       prop: 'value',
-      event: 'input'
+      event: 'textarea'
     },
     data() {
       return {
@@ -81,7 +81,7 @@
     },
     methods: {
       onInput(evt) {
-        this.$emit('input', evt.target.value)
+        this.$emit('textarea', evt.target.value)
       },
       onFocus() {
         this.focused = true;

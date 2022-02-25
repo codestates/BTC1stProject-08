@@ -11,7 +11,9 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
+import {creatApp} from "vue"
 import Vue from "vue";
+//import {store} from './store'
 import VueRouter from "vue-router";
 import RouterPrefetch from 'vue-router-prefetch'
 import App from "./App";
@@ -34,5 +36,6 @@ Vue.component('V-MaterialIcon', require('vue-materials-icon/MaterialIcon').defau
 new Vue({
   router,
   i18n,
+  //store: store,
   render: h => h(App)
 }).$mount("#app");
