@@ -7,7 +7,7 @@
                               tag="div"
                               title-classes="btn btn-link btn-icon"
                               aria-label="Settings menu"
-                              :class="{'float-left': isRTL}">
+                              >
             <i slot="title" class="tim-icons icon-settings-gear-63"></i>
             <a class="dropdown-item" href="#pablo">{{$t('dashboard.dropdown.action')}}</a>
           </base-dropdown>
@@ -31,7 +31,8 @@
                         "></textarea>
                       </div>
                       <div style="text-align:center; height: 20%">
-                        <base-button v-on:click="toSignIn">로그인</base-button> 
+                        <!-- <base-button v-on:click="toSignIn">로그인</base-button>  -->
+                        <base-button :loading = "isLoading" type="primary" @click="toSignIn">새로운 지갑 생성</base-button>
                       </div>
                     </card>
                   </div>                
@@ -54,7 +55,8 @@
                   </div>
                 </div>
                 <div style="text-align:center">
-                  <base-button v-on:click="toSignUp">새로운 지갑 생성</base-button> 
+                  <!-- <base-button v-on:click="toSignUp">새로운 지갑 생성</base-button>  -->
+                  <base-button :loading = "isLoading" type="primary" @click="toSignUp">새로운 지갑 생성</base-button>
                 </div>
               </card>
             </div>
@@ -65,14 +67,17 @@
   </div>
 </template>
 <script>
-import BaseButton from '../components/BaseButton.vue';
+import BaseButton from '../../components/BaseButton.vue';
+import {setNetwork, MnemonicWallet, BN, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
+import { createAvalancheProvider } from '@avalabs/avalanche-wallet-sdk/dist/helpers/network_helper';
   export default {
     components: {
         BaseButton
     },
     data() {
       return {
-        mnemonic
+        mnemonic: '',
+        isLoading: false,
       }
     },
     computed: {
@@ -91,22 +96,44 @@ import BaseButton from '../components/BaseButton.vue';
     },
     methods: {
       initWalletAddress(index) {
-
+        
+        
       },
       toSignIn(){
         if( this.mnemonic.split(' ').length === 12) {
-          console.log('니모닉입니다. 12단어입니다.')
+          async function getWallet(){
+            try{
+              let wallet = MnemonicWallet.fromMnemonic(this.mnemonic);
+              await wallet.resetHdIndices()
+              await wallet.updateUtxosX()
+            }catch(e){
+              console.log(e)
+              console.log('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
+            }
+          }
         }
         else {
             console.log(this.mnemonic);
         }
         console.log('로그인');
-        console.log(this.$store.state.mNemonic);
-        // this.$store.commit('setMnemonic',mnemonic);
-        console.log(this.$store.state.mNemonic);
       },
       toSignUp(){
-        console.log('회원가입');
+        try{
+          let newMnemonic = MnemonicWallet.generateMnemonicPhrase()
+          let myWallet = MnemonicWallet.fromMnemonic(newMnemonic)
+          console.log(`my new mnemonic ${newMnemonic}`);
+          console.log(myWallet)
+          let addressX = myWallet.getAddressX()
+          console.log(`xaddress :  ${addressX}`)
+          let addressP = myWallet.getAddressP()
+          console.log(`paddress :  ${addressP}`)
+          let addressC = myWallet.getAddressC()
+          console.log(`caddress :  ${addressC}`)
+        }catch(e)
+        {
+          console.log(e)
+          console.log('회원가입 실패');
+        }
       }
     },
     mounted() {
