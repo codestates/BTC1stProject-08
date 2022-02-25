@@ -33,21 +33,6 @@
           Internal : {{internalhd[0]}}<br>
           External : {{externalhd[0]}}<br>
           Platform : {{platformhd[0]}}
-          <!-- <div>
-            <base-table :data="tableData"
-              :columns="columns">
-              <template slot="columns">
-                <th class="text-center">#</th>
-                <th>Address</th>
-                <th class="text-right">잔액</th>
-              </template>  
-              <template slot-scope="{row}">
-                <td>{{row.id}}</td>
-                <td>{{row.name}}</td>
-                <td class="text-right">{{row.job}}</td>
-              </template>    
-            </base-table>
-          </div> -->
         </div>
         <template slot="footer">
             <base-button type="secondary" @click="modal1 = false">Close</base-button>
@@ -89,8 +74,6 @@
   export default {
     components: {
       Modal,
-      BaseAlert,
-      BaseTable,
     },
     data() {
       return {

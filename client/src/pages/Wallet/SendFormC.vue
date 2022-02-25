@@ -62,7 +62,7 @@
   </card>
 </template>
 <script>
-import {setNetwork, numberToBNAvaxC, bnToBigAvaxX, BN, Big, bnToAvaxC } from "@avalabs/avalanche-wallet-sdk";
+import { numberToBNAvaxC, bnToBigAvaxX, BN, Big, bnToAvaxC } from "@avalabs/avalanche-wallet-sdk";
 
 export default {
   name: 'SendFormC',

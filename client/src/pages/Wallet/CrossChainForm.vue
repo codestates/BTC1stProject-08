@@ -73,7 +73,7 @@
 </template>
 <script>
   import { ChainTypeIndex } from '@/dictionary/chainTypeDictionary';
-  import {BN, MnemonicWallet, waitTxX } from "@avalabs/avalanche-wallet-sdk";
+  import { BN } from "@avalabs/avalanche-wallet-sdk";
 import Card from '../../components/Cards/Card.vue';
   export default {
   components: { Card },
