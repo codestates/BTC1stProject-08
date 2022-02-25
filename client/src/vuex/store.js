@@ -9,7 +9,7 @@ export const store = new Vuex.Store({
     state: {
         networkId: 'testnet',
         Network: Network,
-        wallet: '',
+        wallet: {},
         myWallet: {
             addressX: '',
             xBalance: 0,
