@@ -37,7 +37,6 @@
   </div>
 </template>
 <script>
-import { MnemonicWallet } from "@avalabs/avalanche-wallet-sdk";
 
 export default {
   name: 'Register',
@@ -58,13 +57,13 @@ export default {
   },
   methods: {
     regenerate() {
-      const mnemonic = MnemonicWallet.generateMnemonicPhrase();
+      const mnemonic = this.$store.state.currentNetwork.MnemonicWallet.generateMnemonicPhrase();
       this.mnemonicCards = mnemonic.split(' ');
       this.mnemonic = mnemonic;
     },
     async accessWallet() {
       this.isLoading = true;
-      const wallet = new MnemonicWallet(this.mnemonic);
+      const wallet = this.$store.state.currentNetwork.MnemonicWallet.fromMnemonic(this.mnemonic)
       this.$store.commit('setWallet', wallet);
       this.isLoading = false;
       await this.$router.push('/wallet');

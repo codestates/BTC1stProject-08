@@ -1,5 +1,5 @@
 # 아발란체 Avalanche(AVAX)
-#### make by 아벡썸 (AxvAx Thumb)
+#### make by 아벡썸 (Avax Thumb)
 
 
 
@@ -14,7 +14,7 @@
 
 
 
-# Fornt ( Wallet , Explorer )
+# Front ( Wallet , Explorer )
 - Vue.js
 - Vuex
 

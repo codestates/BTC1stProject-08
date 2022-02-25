@@ -2,6 +2,8 @@
   <div class="m-auto">     
     <div class="col-lg-12" style="height:600px">
       <card type="tasks" style="height:100%">
+        <template slot="header">
+        </template>
         <div class="m-auto" style="height : 100%" >
           <div class="low" style="display:flex; height:99%">
                   <div style="width: 50%">
@@ -21,7 +23,7 @@
                       </div>
                       <div style="text-align:center; height: 20%">
                         <!-- <base-button v-on:click="toSignIn">로그인</base-button>  -->
-                        <base-button :loading = "isLoading" type="primary" @click="doSignIn">로그인</base-button>
+                        <base-button :loading="isLoading" type="primary" @click="toSignIn">로그인</base-button>
                       </div>
                     </card>
                   </div>
@@ -56,14 +58,17 @@
   </div>
 </template>
 <script>
-import BaseButton from '../../components/BaseButton.vue';
-import { MnemonicWallet }  from "@avalabs/avalanche-wallet-sdk";
-import BaseAlertVue from '../../components/BaseAlert.vue';
+  import BaseButton from '@/components/BaseButton';
 
   export default {
     name: 'Login',
     components: {
-        BaseButton
+      BaseButton,
+    },
+    mounted() {
+      if (this.$store.state.isSignIn) {
+        this.$router.back();
+      }
     },
     data() {
       return {
@@ -71,36 +76,25 @@ import BaseAlertVue from '../../components/BaseAlert.vue';
         isLoading: false,
       }
     },
-    computed: {
-      enableRTL() {
-        return this.$route.query.enableRTL;
-      },
-      isRTL() {
-        return this.$rtl.isRTL;
-      },
-      walletAddresses() {
-        return this.$t('dashboard.walletAddresses');
-      }
-    },
-    methods: {      
-      async doSignIn(){
-        console.log(this.mnemonic)
-        this.isLoading=true;
-        if( this.mnemonic.split(' ').length === 24) {          
-            try{
-                const wallet = new MnemonicWallet(this.mnemonic);
-                await wallet.resetHdIndices()
-                this.$store.commit('setWallet', wallet);
-                await this.$router.push('/wallet');
-            }catch(e){
-                alert('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
-                console.log(e)
-            }
+    methods: {
+      async toSignIn() {
+        this.isLoading = true;
+        const invalidMnemonic = this.mnemonic.split(' ').length === 24;
+        if (!invalidMnemonic) {
+          alert('유효하지 않은 니모닉입니다.');
+        } else {
+          try {
+            const wallet = await this.$store.state.currentNetwork.MnemonicWallet.fromMnemonic(this.mnemonic);
+            wallet.getAvaxBalance()
+            await wallet.resetHdIndices();
+            await wallet.updateUtxosX();
+            this.$store.commit('setWallet', wallet);
+            this.$router.push('/wallet');
+          } catch(e) {
+            alert('로그인에 실패하였습니다. 귀하의 니모닉을 다시 확인해주세요.');
+          }
         }
-        else {
-            console.log(this.mnemonic.split(' '));
-            alert('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
-        }
+
         this.isLoading = false;
       },
       async toSignUp() {

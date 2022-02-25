@@ -1,15 +1,24 @@
 // store.js
 import Vue from 'vue';
 import Vuex from 'vuex';
-const Network = require('@avalabs/avalanche-wallet-sdk');
+import {bnToAvaxC, bnToAvaxX, bnToAvaxP} from "@avalabs/avalanche-wallet-sdk";
+const { TestnetConfig, MainnetConfig } = require('@avalabs/avalanche-wallet-sdk');
+const Network = require('@avalabs/avalanche-wallet-sdk')
 
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
         networkId: 'testnet',
-        Network: Network,
-        wallet: {},
+        currentNetwork : Network,
+        wallet: null,
+        balances: {
+            unlocked: {
+                X: 0,
+                P: 0,
+                C: 0,
+            },
+        },
         isSignIn: false
     },
     getters: {
@@ -23,16 +32,39 @@ export const store = new Vuex.Store({
              *  Avalnche 네트워크 셋팅 Mutate
              *
              */
-            if(netid === 'testnet'){
-                await state.Network.setNetwork(Network.TestnetConfig);
-                state.networkId = netid;
+            console.log(netid)
+            switch (netid) {
+                case 'testnet':
+                    await state.currentNetwork.setNetwork(TestnetConfig);
+                    state.networkId = netid;
+                    break;
+                case 'mainnet':
+                    await state.currentNetwork.setNetwork(MainnetConfig);
+                    state.networkId = netid;
+                    break
+                default:
+                    break;
             }
-            
-            if(netid === 'mainnet'){
-                await state.Network.setNetwork(Network.MainnetConfig);
-                state.networkId = netid;
+        },
+        refreshBalance(state) {
+            if (!state.wallet) {
+                return;
             }
-            console.log(`네트워크 상태 :  ${state.networkId}`)
+
+            state.wallet.resetHdIndices().then(async () => {
+                await state.wallet.updateUtxosX()
+                await state.wallet.updateUtxosP()
+                await state.wallet.updateAvaxBalanceC()
+
+                const xAvax = bnToAvaxX(state.wallet.getAvaxBalanceX().unlocked)
+                const pAvax = bnToAvaxP(state.wallet.getAvaxBalanceP().unlocked);
+                const cAvax = bnToAvaxC(state.wallet.getAvaxBalanceC());
+                state.balances.unlocked = {
+                    X: xAvax,
+                    C: cAvax,
+                    P: pAvax,
+                };
+            })
         },
         setWallet(state, wallet){
             state.isSignIn = true;

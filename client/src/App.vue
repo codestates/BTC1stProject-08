@@ -7,12 +7,15 @@
 
 <script>
   // import axios from 'axios'
+
   export default {
     created() {
       // this.corsRequest();
       if (!this.$store.state.isSignIn) {
         this.$router.push('/login');
       }
+      
+      this.$store.commit('setNetwork', 'testnet');
     },
     methods: {
       disableRTL() {
