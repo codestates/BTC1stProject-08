@@ -7,7 +7,6 @@
 
 <script>
   // import axios from 'axios'
-  import { setNetwork } from "@avalabs/avalanche-wallet-sdk";
 
   export default {
     created() {
@@ -15,8 +14,8 @@
       if (!this.$store.state.isSignIn) {
         this.$router.push('/login');
       }
-
-      setNetwork(this.$store.state.currentNetwork);
+      
+      this.$store.commit('setNetwork', 'testnet');
     },
     methods: {
       disableRTL() {

@@ -1,11 +1,11 @@
 export const ChainType = {
     xChain: "X-Chain",
-    cChain: "C-Chain",
     pChain: "P-Chain",
+    cChain: "C-Chain",
 }
 
 export const ChainTypeIndex = {
     xChain: 0,
-    cChain: 1,
-    pChain: 2,
+    pChain: 1,
+    cChain: 2,
 }

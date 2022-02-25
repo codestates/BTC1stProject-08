@@ -5,16 +5,12 @@
       <Address></Address>
   <!--source chain -->
       <div class="col-lg-12 col-md-12">
-          <card type="tasks" :header-classes="{'text-right': isRTL}">
-            <template slot="header">
-              <h6 class="title d-inline">CROSS CHAIN</h6>
-            </template>
-            <div class="table-full-width table-responsive">
-              <div class="col-lg-12">
-                <cross-chain-form></cross-chain-form>
-              </div>
-            </div>
-          </card>
+          <card type="tasks" :header-classes="{'text-right': isRTL}" >
+              <template slot="header">
+                <h6 class="title d-inline">CROSS CHAIN</h6>
+              </template>
+              <cross-chain-form></cross-chain-form>
+            </card>
         </div>
 
     </div>

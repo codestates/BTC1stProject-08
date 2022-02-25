@@ -23,7 +23,7 @@
                       </div>
                       <div style="text-align:center; height: 20%">
                         <!-- <base-button v-on:click="toSignIn">로그인</base-button>  -->
-                        <base-button :loading="isLoginLoading" type="primary" @click="toSignIn">로그인</base-button>
+                        <base-button :loading="isLoading" type="primary" @click="toSignIn">로그인</base-button>
                       </div>
                     </card>
                   </div>
@@ -59,8 +59,6 @@
 </template>
 <script>
   import BaseButton from '@/components/BaseButton';
-  import { MnemonicWallet} from "@avalabs/avalanche-wallet-sdk";
-
 
   export default {
     name: 'Login',
@@ -71,23 +69,27 @@
       if (this.$store.state.isSignIn) {
         this.$router.back();
       }
+
+      this.$nextTick(function () {
+        this.$store.commit('setNetwork','testnet');
+        // 전체 화면내용이 렌더링된 후에 아래의 코드가 실행됩니다.
+      })
     },
     data() {
       return {
         mnemonic: '',
-        isLoginLoading: false,
+        isLoading: false,
       }
     },
     methods: {
       async toSignIn() {
-        this.isLoginLoading = true;
+        this.isLoading = true;
         const invalidMnemonic = this.mnemonic.split(' ').length === 24;
         if (!invalidMnemonic) {
           alert('유효하지 않은 니모닉입니다.');
         } else {
           try {
-            const wallet = await MnemonicWallet.fromMnemonic(this.mnemonic);
-
+            const wallet = await this.$store.state.currentNetwork.MnemonicWallet.fromMnemonic(this.mnemonic);
             await wallet.resetHdIndices();
             await wallet.updateUtxosX();
             this.$store.commit('setWallet', wallet);
@@ -97,7 +99,7 @@
           }
         }
 
-        this.isLoginLoading = false;
+        this.isLoading = false;
       },
       async toSignUp() {
         await this.$router.push('/register');
