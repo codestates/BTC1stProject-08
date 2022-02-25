@@ -2,27 +2,28 @@
   <card>
     <div class="row">
       <div class="col-md-4 px-md-1">
-        <h5>Source Chain</h5>
-        <select class="form-control" aria-label="Default select example" :value="sourceIndex">
-          <option value="0">X Chain</option>
-          <option value="1">P Chain</option>
-          <option value="2">C Chain</option>
+        <label>Source Chain</label>
+        <select class="form-control" aria-label="Default select example" :value="sourceIndex" @change="onChangeSourceIndex">
+          <option :value="chain.value" :key="chain.label" v-for="chain in chains">
+            {{ chain.label }}
+          </option>
         </select>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4 px-md-1">
-        <h5>Destination Chain</h5>
-        <select class="form-control" aria-label="Default select example" :value="targetIndex">
-          <option value="0">X Chain</option>
-          <option value="2">C Chain</option>
+        <label>Destination Chain</label>
+        <select class="form-control" aria-label="Default select example" :value="targetIndex" @change="onChangeTargetIndex">
+          <option :value="chain.value" :key="chain.label" v-for="chain in targetChains">
+            {{ chain.label }}
+          </option>
         </select>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4 px-md-1">
-        <h5>Destination Chain</h5>
-        <input class="form-control" type="number" step="0.01" placeholder="0.01">
+        <label>Transfer Amount</label>
+        <input class="form-control" type="number" step="0.01" placeholder="0.01" v-model="transferAmount" @change="onChangeTransferAmount">
       </div>
     </div>
     <div class="row">
@@ -40,30 +41,74 @@
       <label style="padding-right: 10px">Total</label>
       <label><p>10</p></label>
     </div>
-    <base-button slot="footer" type="primary" fill>CONFIRM</base-button>
+    <base-button slot="footer" type="primary" fill @click="cross" :loading="isLoading">CONFIRM</base-button>
   </card>
 </template>
 <script>
+  import { ChainTypeIndex } from '@/dictionary/chainTypeDictionary';
+  import {BN, MnemonicWallet, setNetwork, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
   export default {
     data() {
       return {
-        indexs: [
+        isLoading: false,
+        chains: [
           {
-            value: 0,
+            value: ChainTypeIndex.xChain,
             label: 'X Chain',
           },
           {
-            value: 0,
-            label: 'X Chain',
+            value: ChainTypeIndex.cChain,
+            label: 'C Chain',
           },
           {
-            value: 0,
-            label: 'X Chain',
+            value: ChainTypeIndex.pChain,
+            label: 'P Chain',
           },
         ],
-        sourceIndex: 0,
-        targetIndex: 1,
+        sourceIndex: ChainTypeIndex.xChain,
+        targetIndex: ChainTypeIndex.cChain,
+        transferAmount: 0,
       }
+    },
+    computed: {
+      targetChains() {
+        return this.chains.filter(c => c.value !== this.sourceIndex);
+      }
+    },
+    methods: {
+      onChangeSourceIndex({ target }) {
+        this.sourceIndex = Number(target.value);
+      },
+      onChangeTargetIndex({ target }) {
+        this.targetIndex = Number(target.value);
+      },
+      onChangeTransferAmount({ target }) {
+        this.transferAmount = Number(target.value);
+      },
+      async cross() {
+        try {
+          this.isLoading = true;
+          const newMnemonic = 'fantasy trim fun junk wisdom cement rally infant blush twist mom dilemma museum flat dad bulk hunt lawn unable huge sunny almost equip song';
+          const myWallet = MnemonicWallet.fromMnemonic(newMnemonic);
+          setNetwork(TestnetConfig);
+          await myWallet.resetHdIndices();
+          await myWallet.updateUtxosX();
+
+          // const addressX = myWallet.getAddressX();
+          // const addressP = myWallet.getAddressP();
+          // const addressC = myWallet.getAddressC();
+
+          console.log(this.transferAmount);
+
+          const amount = new BN(2);
+          // const gasPrice = new BN(this.gasPrice);
+          // const gasLimit = 0;
+          await myWallet.exportXChain(amount, 'C');
+        } catch (error) {
+          console.info(error);
+          this.isLoading = false;
+        }
+      },
     }
   }
 </script>

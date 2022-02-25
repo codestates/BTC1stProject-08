@@ -1,8 +1,8 @@
 <template>
-  <div class="col-lg-6" :class="{'text-right': isRTL}">
+  <div class="col-lg-6">
     <card type="chart">
       <template slot="header">
-        <a href="/wallet"><h3 class="card-title"><i><span class="material-icons">restart_alt</span></i> Balance</h3></a>
+        <a href="/wallet/wallet"><h3 class="card-title"><i><span class="material-icons">restart_alt</span></i> Balance</h3></a>
       </template>
       <!-- card body : balance 데이터 가져와서 뿌려주는 부분 -->
       <div class="chart-area">
@@ -34,21 +34,49 @@
   </div>
 </template>
 <script>
+import {MnemonicWallet, setNetwork, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
+
 export default {
   name: "Balance",
   components: {
   },
   data() {
     return {
+      balance: {
+        availableX: 0,
+        availableP: 0,
+        availableC: 0,
+      },
+      locked: {
+        lockedX: 0,
+        lockedP: 0,
+        lockedC: 0,
+      },
+      staking: 0
     }
   },
   computed: {
 
   },
   methods: {
+    async getBalance() {
+      const mnemonic = "dust egg camera liberty drift grow mandate middle garment toy make gravity code bag toy tortoise gorilla bomb jar limb main habit boil truth";
+      const myWallet = MnemonicWallet.fromMnemonic(mnemonic);
+      const balanceX = myWallet.balanceX;
+      console.log("balanceX", balanceX);
+      // const addressP = myWallet.;
+      // const addressC = myWallet.getAddressC();
+      //
+      // this.balance.availableX = addressX.balanceX;
+
+      setNetwork(TestnetConfig);
+
+    }
 
   },
   mounted() {
+    console.log("mounted...")
+    this.getBalance();
 
   },
   beforeDestroy() {
