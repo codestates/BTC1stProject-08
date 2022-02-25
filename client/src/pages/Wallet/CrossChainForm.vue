@@ -51,20 +51,21 @@
       <div class="">
         <card class="iner-card flow-left">
           <label class="label-name">Source</label>
-          <p>
-            X -Chain</p>
+          <p>{{this.source}}</p>
         </card>
         <card class="iner-card flow-right">
           <label class="label-name">Destination</label>
-          <p>id</p>
+          <p>{{this.target}}</p>
         </card>
         <card class="iner-card flow-left">
           <label class="label-name">ExPort</label>
-          <p>id</p>
+          <p>Transaction</p>
+          <p>{{this.exportTx}}</p>
         </card>
         <card class="iner-card flow-right">
           <label class="label-name">ImPort</label>
-          <p>id</p>
+          <p>Transaction</p>
+          <p>{{this.importTx}}</p>
         </card>
       </div>
     </div>
@@ -96,7 +97,9 @@ import Card from '../../components/Cards/Card.vue';
         sourceIndex: ChainTypeIndex.xChain,
         targetIndex: ChainTypeIndex.cChain,
         transferAmount: 0,
-        wallet: {},
+        source:'X-Chain',
+        target:'C-Chain',
+        wallet: null,
         exportTx: '',
         importTx: '',
       }
@@ -109,63 +112,65 @@ import Card from '../../components/Cards/Card.vue';
     methods: {
       onChangeSourceIndex({ target }) {
         this.sourceIndex = Number(target.value);
+        this.source = Number(target.value) === 0 ? 'X-Chain':  Number(target.value) === 1 ? 'P-Chain' : 'C-Chain';
       },
       onChangeTargetIndex({ target }) {
         this.targetIndex = Number(target.value);
+        this.target = Number(target.value) === 0 ? 'X-Chain':  Number(target.value) === 1 ? 'P-Chain' : 'C-Chain';
       },
       onChangeTransferAmount({ target }) {
         this.transferAmount = Number(target.value);
       },
       async cross() {
-        this.transferAmount *= 1000000000;
+        const amt = this.transferAmount * 1000000000;
           switch(this.sourceIndex){
             case 0:
-              this.exportX()
+              this.exportX(amt)
               break;
             case 1:
-              this.exportP()
+              this.exportP(amt)
               break;
             case 2:
-              this.exportC();
+              this.exportC(amt);
               break;
             default:
               break;
           }
       },
-      async exportX() {
+      async exportX(amount) {
         this.isLoading = true;
         this.wallet.resetHdIndices().then(async() => {
             await this.wallet.updateUtxosX()
             // const gasPrice = new BN(this.gasPrice);
             // const gasLimit = 0;
-            console.log(this.targetIndex);
-            let ammount = new BN(this.transferAmount);
+            console.log(amount);
+            let ammount = new BN(amount);
             this.exportTx = await this.wallet.exportXChain(ammount,(this.targetIndex === 1 ? 'P' : 'C'))  //TODO 타겟 'C' or 'P'
             console.log(this.exportTx);
             setTimeout(()=>{ this.allimport()},2000);
         })  
       },
-      async exportP(to, ammount) {
+      async exportP(amount) {
           this.isLoading = true;
           this.wallet.resetHdIndices().then(async() => {
               await this.wallet.updateUtxosX()
               // const gasPrice = new BN(this.gasPrice);
               // const gasLimit = 0;
-              console.log(this.targetIndex);
-              let ammount = new BN(this.transferAmount);
+              console.log(amount);
+              let ammount = new BN(amount);
               this.exportTx = await this.wallet.exportPChain(ammount,(this.targetIndex === 2 ? 'C' : 'X')) //TODO 타겟 'C' or 'P'
               console.log(this.exportTx);
               setTimeout(()=>{ this.allimport()},2000);
           })
       },
-      async exportC() {
+      async exportC(amount) {
           this.isLoading = true;
           this.wallet.resetHdIndices().then(async() => {
               await this.wallet.updateUtxosX()
               // const gasPrice = new BN(this.gasPrice);
               // const gasLimit = 0;
-              console.log(this.targetIndex);
-              let ammount = new BN(this.transferAmount);
+              console.log(amount);
+              let ammount = new BN(amount);
               this.exportTx = await this.wallet.exportCChain(ammount,(this.targetIndex === 0 ? 'X' : 'P')) //TODO 타겟 'C' or 'P'
               console.log(this.exportTx);
               setTimeout(()=>{ this.allimport()},2000);
@@ -175,32 +180,32 @@ import Card from '../../components/Cards/Card.vue';
         this.wallet.resetHdIndices()
         .then(async()=>{
             try{
-                await this.wallet.importX('P')
+                this.importTx = await this.wallet.importX('P')
             }catch(e){
                 console.log(e)
             }
             try{
-                await this.wallet.importX('C')
+                this.importTx = await this.wallet.importX('C')
             }catch(e){
                 console.log(e)
             }
             try{
-                await this.wallet.importP('X')
+                this.importTx = await this.wallet.importP('X')
             }catch(e){
                 console.log(e)
             }
             try{
-                await this.wallet.importP('C')
+                this.importTx = await this.wallet.importP('C')
             }catch(e){
                 console.log(e)
             }
             try{
-                await this.wallet.importC('P')
+                this.importTx = await this.wallet.importC('P')
             }catch(e){
                 console.log(e)
             }
             try{
-                await this.wallet.importC('X')
+                this.importTx = await this.wallet.importC('X')
             }catch(e){
                 console.log(e)
             }
