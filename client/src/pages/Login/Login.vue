@@ -32,7 +32,7 @@
                       </div>
                       <div style="text-align:center; height: 20%">
                         <!-- <base-button v-on:click="toSignIn">로그인</base-button>  -->
-                        <base-button :loading = "isLoading" type="primary" @click="toSignIn">새로운 지갑 생성</base-button>
+                        <base-button :loading = "isLoading" type="primary" @click="toSignIn">로그인</base-button>
                       </div>
                     </card>
                   </div>                
@@ -69,7 +69,8 @@
 <script>
 import BaseButton from '../../components/BaseButton.vue';
 import {setNetwork, MnemonicWallet, BN, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
-import { createAvalancheProvider } from '@avalabs/avalanche-wallet-sdk/dist/helpers/network_helper';
+import * as Network from '@avalabs/avalanche-wallet-sdk';
+
   export default {
     components: {
         BaseButton
@@ -99,25 +100,26 @@ import { createAvalancheProvider } from '@avalabs/avalanche-wallet-sdk/dist/help
         
         
       },
-      toSignIn(){
-        if( this.mnemonic.split(' ').length === 12) {
-          async function getWallet(){
-            try{
-              let wallet = MnemonicWallet.fromMnemonic(this.mnemonic);
-              await wallet.resetHdIndices()
-              await wallet.updateUtxosX()
-            }catch(e){
-              console.log(e)
-              console.log('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
-            }
+      async toSignIn(){
+        this.isLoading  = true;
+        if( this.mnemonic.split(' ').length === 24) {          
+          try{
+            let wallet = await MnemonicWallet.fromMnemonic(this.mnemonic);
+            await wallet.resetHdIndices()
+            await wallet.updateUtxosX()
+            console.log(wallet);
+          }catch(e){
+            console.log(e)
+            console.log('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
           }
         }
         else {
-            console.log(this.mnemonic);
+            console.log(this.mnemonic.split(' '));
         }
         console.log('로그인');
+        this.isLoading = false;
       },
-      toSignUp(){
+      async toSignUp(){
         try{
           let newMnemonic = MnemonicWallet.generateMnemonicPhrase()
           let myWallet = MnemonicWallet.fromMnemonic(newMnemonic)
