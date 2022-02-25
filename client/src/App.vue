@@ -7,12 +7,16 @@
 
 <script>
   // import axios from 'axios'
+  import { setNetwork } from "@avalabs/avalanche-wallet-sdk";
+
   export default {
     created() {
       // this.corsRequest();
       if (!this.$store.state.isSignIn) {
         this.$router.push('/login');
       }
+
+      setNetwork(this.$store.state.currentNetwork);
     },
     methods: {
       disableRTL() {

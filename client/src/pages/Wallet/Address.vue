@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     initWalletAddress(index) {
-      const mnemonic = "stomach virus coil teach once truck gap clog hip claim loyal marble sustain zoo pink ripple kind stumble air chronic must void capable area";
+
       const myWallet = MnemonicWallet.fromMnemonic(mnemonic);
       // console.log('myWallet', myWallet);
       setNetwork(TestnetConfig);
