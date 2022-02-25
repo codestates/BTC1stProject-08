@@ -29,18 +29,20 @@
       <div class="chart-area">
         <div class="col-sm-11">
           <h2>Derived Platform Wallet Address</h2>
-          <p>{{walletAddress.activeAddress}}</p>
+          <p> {{ walletAddress.activeAddress }}</p>
         </div>
       </div>
     </card>
   </div>
 </template>
 <script>
-import {MnemonicWallet, setNetwork, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
+import { ChainType } from "@/dictionary/chainTypeDictionary"
 
 export default {
   name: "Address",
   components: {
+  },
+  beforeCreate() {
   },
   data() {
     return {
@@ -61,42 +63,24 @@ export default {
     isRTL() {
       return this.$rtl.isRTL;
     },
-    bigLineChartCategories() {
-      return this.$t('dashboard.chartCategories');
-    },
     walletAddresses() {
-      return this.$t('dashboard.walletAddresses');
+      return [ChainType.xChain, ChainType.pChain, ChainType.cChain];
     },
+    xWalletAddress() {
+      return this.$store.state.address.X;
+    }
   },
   methods: {
     initWalletAddress(index) {
-
-      const myWallet = MnemonicWallet.fromMnemonic(mnemonic);
-      // console.log('myWallet', myWallet);
-      setNetwork(TestnetConfig);
-      console.log("balanceX", myWallet.getAvaxBalanceX());
       this.walletAddress.activeIndex = index;
-
-      if(this.walletAddress.activeIndex === 0) {
-        const addressX = myWallet.getAddressX();
-        this.walletAddress.activeAddress = addressX;
-
-      }else if(this.walletAddress.activeIndex === 1) {
-        const addressP = myWallet.getAddressP();
-        // console.log(addressP);
-        this.walletAddress.activeAddress = addressP;
-      } else if(this.walletAddress.activeIndex === 2) {
-        const addressP = myWallet.getAddressP();
-        this.walletAddress.activeAddress = addressP;
-      } else {
-        const addressX = myWallet.getAddressX();
-        this.walletAddress.activeIndex = 0;
-        this.walletAddress.activeAddress = addressX;
-      }
+      const addressList = [this.$store.state.address.X, this.$store.state.address.P, this.$store.state.address.C];
+      this.walletAddress.activeAddress = addressList[this.walletAddress.activeIndex]
     },
   },
   mounted() {
-
+    console.log("mounted");
+    this.$store.commit('refreshAddress');
+    this.walletAddress.activeAddress = this.$store.state.address.X;
   },
   beforeDestroy() {
 

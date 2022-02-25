@@ -17,6 +17,16 @@ export const store = new Vuex.Store({
                 P: 0,
                 C: 0,
             },
+            locked: {
+                X: 0,
+                P: 0,
+                PS: 0,
+            },
+        },
+        address: {
+            X: '',
+            P: '',
+            C: '',
         },
         isSignIn: false
     },
@@ -40,20 +50,40 @@ export const store = new Vuex.Store({
             if (!state.wallet) {
                 return;
             }
-
             const balances = state.wallet.getAvaxBalance();
-            const xAvax = bnToAvaxX(balances.X.unlocked);
-            const cAvax = bnToAvaxC(balances.C);
-            const pAvax = bnToAvaxX(balances.P.unlocked);
+            const xBalancesUnlocked = bnToAvaxX(balances.X.unlocked);
+            const cBalances = bnToAvaxC(balances.C);
+            const pBalancesUnlocked = bnToAvaxX(balances.P.unlocked);
+            const xBalancesLocked = bnToAvaxX(balances.X.locked);
+            const pBalancesLocked = bnToAvaxX(balances.P.locked);
+            const pBalancesStakeableLocked = bnToAvaxX(balances.P.lockedStakeable);
             state.balances.unlocked = {
-                X: xAvax,
-                C: cAvax,
-                P: pAvax,
+                X: xBalancesUnlocked,
+                C: cBalances,
+                P: pBalancesUnlocked,
             };
+            state.balances.locked = {
+                X: xBalancesLocked,
+                P: pBalancesLocked,
+                PS: pBalancesStakeableLocked,
+            }
         },
         setWallet(state, wallet){
             state.isSignIn = true;
             state.wallet = wallet;
+        },
+        refreshAddress(state) {
+            if (!state.wallet) {
+                return;
+            }
+            const XAddress = state.wallet.getAddressX();
+            const PAddress = state.wallet.getAddressP();
+            const CAddress = state.wallet.getAddressC();
+            state.address = {
+                X: XAddress,
+                P: PAddress,
+                C: CAddress,
+            }
         }
     }
 });

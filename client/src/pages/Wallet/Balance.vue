@@ -18,11 +18,11 @@
           </div>
           <div class="col-md-4">
             <label>Locked (X)</label>
-            <h4>1.899000001 AVAX</h4>
+            <h4>{{ LockedX }} AVAX</h4>
             <label>Locked (P)</label>
-            <h4>1.899000001 AVAX</h4>
-            <label>Locked (C)</label>
-            <h4>1.899000001 AVAX</h4>
+            <h4>{{ LockedP }} AVAX</h4>
+            <label>Locked Stakeable (P)</label>
+            <h4>{{ LockedPS }} AVAX</h4>
           </div>
           <div class="col-md-3">
             <label>Staking</label>
@@ -52,6 +52,16 @@ export default {
     availableP() {
       return this.$store.state.balances.unlocked.P;
     },
+    LockedX() {
+      return this.$store.state.balances.locked.X;
+    },
+    LockedP() {
+      return this.$store.state.balances.locked.P;
+    },
+    LockedPS() {
+      return this.$store.state.balances.locked.PS;
+    }
+
   },
   methods: {
   },
