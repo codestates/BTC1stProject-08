@@ -1,6 +1,7 @@
 // store.js
 import Vue from 'vue';
 import Vuex from 'vuex';
+import {bnToAvaxC, bnToAvaxX} from "@avalabs/avalanche-wallet-sdk";
 const { TestnetConfig, MainnetConfig } = require('@avalabs/avalanche-wallet-sdk');
 
 Vue.use(Vuex);
@@ -10,13 +11,12 @@ export const store = new Vuex.Store({
         networkId: 'testnet',
         currentNetwork: TestnetConfig,
         wallet: {},
-        myWallet: {
-            addressX: '',
-            xBalance: 0,
-            addressP: '',
-            pBalance: 0,
-            addressC: '',
-            cBalance: 0,
+        balances: {
+            unlocked: {
+                X: 0,
+                P: 0,
+                C: 0,
+            },
         },
         isSignIn: false
     },
@@ -35,6 +35,21 @@ export const store = new Vuex.Store({
                     this.state.currentNetwork = TestnetConfig;
                     return;
             }
+        },
+        refreshBalance(state) {
+            if (!state.wallet) {
+                return;
+            }
+
+            const balances = state.wallet.getAvaxBalance();
+            const xAvax = bnToAvaxX(balances.X.unlocked);
+            const cAvax = bnToAvaxC(balances.C);
+            const pAvax = bnToAvaxX(balances.P.unlocked);
+            state.balances.unlocked = {
+                X: xAvax,
+                C: cAvax,
+                P: pAvax,
+            };
         },
         setWallet(state, wallet){
             state.isSignIn = true;
