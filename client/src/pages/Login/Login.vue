@@ -9,7 +9,7 @@
                   <div style="width: 50%">
                     <card type="chart" style=" height: 100%">
                       <div style="height: 15%;">
-                        <h3 style="margin-bottom:0px">⦿ 귀하의 니모닉을 입력하세요</h3>
+                        <h3 style="margin-bottom:0px"><span class="material-icons" style="margin: 10px">login</span>귀하의 니모닉을 입력하세요</h3>
                         <h6 style="margin-left:28px">- 단어와 단어 사이는 공백 한개 입니다.</h6>
                       </div>
                       <div style="height: 65%; margin: 0px 5px 0px 5px;">
@@ -47,7 +47,7 @@
                 </div>
                 <div style="text-align:center">
                   <!-- <base-button v-on:click="toSignUp">새로운 지갑 생성</base-button>  -->
-                  <base-button :loading = "isLoading" type="primary" @click="toSignUp">새로운 지갑 생성</base-button>
+                  <base-button type="primary" @click="toSignUp">새로운 지갑 생성</base-button>
                 </div>
               </card>
             </div>

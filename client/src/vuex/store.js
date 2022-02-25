@@ -37,7 +37,7 @@ export const store = new Vuex.Store({
         },
     },
     mutations: {
-        async setNetwork(state,netid){
+        async setNetwork(state, netid){
             /**
              *  Avalnche 네트워크 셋팅 Mutate
              *
@@ -56,36 +56,35 @@ export const store = new Vuex.Store({
                     break;
             }
         },
-        refreshBalance(state) {
+        async refreshBalance(state) {
             if (!state.wallet) {
                 return;
             }
 
-            state.wallet.resetHdIndices().then(async () => {
-                await state.wallet.updateUtxosX()
-                await state.wallet.updateUtxosP()
-                await state.wallet.updateAvaxBalanceC()
+            await state.wallet.resetHdIndices();
+            await state.wallet.updateUtxosX()
+            await state.wallet.updateUtxosP()
+            await state.wallet.updateAvaxBalanceC()
 
-                const xAvax = bnToAvaxX(state.wallet.getAvaxBalanceX().unlocked)
-                const pAvax = bnToAvaxP(state.wallet.getAvaxBalanceP().unlocked);
-                const cAvax = bnToAvaxC(state.wallet.getAvaxBalanceC());
+            const xAvax = bnToAvaxX(state.wallet.getAvaxBalanceX().unlocked)
+            const pAvax = bnToAvaxP(state.wallet.getAvaxBalanceP().unlocked);
+            const cAvax = bnToAvaxC(state.wallet.getAvaxBalanceC());
 
-                const xBalancesLocked = bnToAvaxX(state.wallet.getAvaxBalanceX().locked);
-                const pBalancesLocked = bnToAvaxX(state.wallet.getAvaxBalanceP().locked);
-                const pBalancesStakeableLocked = bnToAvaxX(state.wallet.getAvaxBalanceP().lockedStakeable);
+            const xBalancesLocked = bnToAvaxX(state.wallet.getAvaxBalanceX().locked);
+            const pBalancesLocked = bnToAvaxX(state.wallet.getAvaxBalanceP().locked);
+            const pBalancesStakeableLocked = bnToAvaxX(state.wallet.getAvaxBalanceP().lockedStakeable);
 
-                state.balances.unlocked = {
-                    X: xAvax,
-                    C: cAvax,
-                    P: pAvax,
-                };
+            state.balances.unlocked = {
+                X: xAvax,
+                C: cAvax,
+                P: pAvax,
+            };
 
-                state.balances.locked = {
-                    X: xBalancesLocked,
-                    P: pBalancesLocked,
-                    PS: pBalancesStakeableLocked,
-                }
-            })
+            state.balances.locked = {
+                X: xBalancesLocked,
+                P: pBalancesLocked,
+                PS: pBalancesStakeableLocked,
+            }
         },
         setWallet(state, wallet){
             state.isSignIn = true;

@@ -2,7 +2,9 @@
   <div class="col-lg-6">
     <card type="chart">
       <template slot="header">
-        <a href="/wallet/wallet"><h3 class="card-title"><i><span class="material-icons">restart_alt</span></i> Balance</h3></a>
+
+        <a href="#" onclick="refreshBalance" style="float: left; padding: 10px" ><i><span class="material-icons">restart_alt</span></i></a>
+        <h3 style="float: left; margin-top: 7px" class="card-title">Balance</h3>
       </template>
       <!-- card body : balance 데이터 가져와서 뿌려주는 부분 -->
       <div class="chart-area">
@@ -64,6 +66,9 @@ export default {
 
   },
   methods: {
+    refreshBalance() {
+      this.$store.commit('refreshBalance');
+    }
   },
   mounted() {
     this.$store.commit('refreshBalance');
