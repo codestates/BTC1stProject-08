@@ -18,8 +18,7 @@ export const store = new Vuex.Store({
             addressC: '',
             cBalance: 0,
         },
-        isSignIn: false,
-        isLoding: false
+        isSignIn: false
     },
     getters: {
         async getWallet(state) {

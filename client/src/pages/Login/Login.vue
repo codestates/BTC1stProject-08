@@ -1,18 +1,7 @@
 <template>
   <div class="m-auto">     
     <div class="col-lg-12" style="height:600px">
-      <card type="tasks" :header-classes="{'text-right': isRTL}" style="height:100%">
-        <template slot="header">
-          <base-dropdown menu-on-right=""
-                              tag="div"
-                              title-classes="btn btn-link btn-icon"
-                              aria-label="Settings menu"
-                              >
-            <i slot="title" class="tim-icons icon-settings-gear-63"></i>
-            <a class="dropdown-item" href="#pablo">{{$t('dashboard.dropdown.action')}}</a>
-          </base-dropdown>
-        </template>
-            
+      <card type="tasks" style="height:100%">
         <div class="m-auto" style="height : 100%" >
           <div class="low" style="display:flex; height:99%">
                   <div style="width: 50%">
@@ -32,13 +21,13 @@
                       </div>
                       <div style="text-align:center; height: 20%">
                         <!-- <base-button v-on:click="toSignIn">로그인</base-button>  -->
-                        <base-button :loading = "this.$store.state.isLoading" type="primary" @click="toSignIn">로그인</base-button>
+                        <base-button :loading = "isLoading" type="primary" @click="doSignIn">로그인</base-button>
                       </div>
                     </card>
-                  </div>                
+                  </div>
                   <div style="width: 50%">
               <card type="chart" style=" height: 100%">
-                <div style="height: 80%"> 
+                <div style="height: 80%">
                   <div style="height:100%; margin:5px 5px 10px 10px">
                     <h4>
                       아발란체 Avalanche(AVAX)
@@ -56,7 +45,7 @@
                 </div>
                 <div style="text-align:center">
                   <!-- <base-button v-on:click="toSignUp">새로운 지갑 생성</base-button>  -->
-                  <base-button :loading = "this.$store.state.isLoading" type="primary" @click="toSignUp">새로운 지갑 생성</base-button>
+                  <base-button :loading = "isLoading" type="primary" @click="toSignUp">새로운 지갑 생성</base-button>
                 </div>
               </card>
             </div>
@@ -68,17 +57,17 @@
 </template>
 <script>
 import BaseButton from '../../components/BaseButton.vue';
-import {setNetwork, MnemonicWallet, BN, TestnetConfig} from "@avalabs/avalanche-wallet-sdk";
-import * as Network from '@avalabs/avalanche-wallet-sdk';
+import { MnemonicWallet }  from "@avalabs/avalanche-wallet-sdk";
+
 
   export default {
+    name: 'Login',
     components: {
         BaseButton
     },
     data() {
       return {
         mnemonic: '',
-        avaxNet: {},
       }
     },
     computed: {
@@ -88,35 +77,33 @@ import * as Network from '@avalabs/avalanche-wallet-sdk';
       isRTL() {
         return this.$rtl.isRTL;
       },
-      bigLineChartCategories() {
-        return this.$t('dashboard.chartCategories');
-      },
       walletAddresses() {
         return this.$t('dashboard.walletAddresses');
       }
     },
-    methods: {
-      async toSignIn(){
-        this.$store.state.isLoading  = true;
-        await this.$store.commit('doSignIn',this.mnemonic);
-      },
-      async toSignUp(){
-        try{
-          let newMnemonic = MnemonicWallet.generateMnemonicPhrase()
-          let myWallet = MnemonicWallet.fromMnemonic(newMnemonic)
-          console.log(`my new mnemonic ${newMnemonic}`);
-          console.log(myWallet)
-          let addressX = myWallet.getAddressX()
-          console.log(`xaddress :  ${addressX}`)
-          let addressP = myWallet.getAddressP()
-          console.log(`paddress :  ${addressP}`)
-          let addressC = myWallet.getAddressC()
-          console.log(`caddress :  ${addressC}`)
-        }catch(e)
-        {
-          console.log(e)
-          console.log('회원가입 실패');
+    methods: {      
+      async doSignIn(){
+        console.log(this.mnemonic)
+        this.isLoding=true;
+        if( this.mnemonic.split(' ').length === 24) {          
+            try{
+                const wallet = new MnemonicWallet(this.mnemonic);
+                await wallet.resetHdIndices()
+                this.$store.commit('setWallet', wallet);
+                await this.$router.push('/wallet');
+            }catch(e){
+                console.log('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
+                console.log(e)
+            }
         }
+        else {
+            console.log(this.mnemonic.split(' '));
+            console.log('로그인이 실패하였습니다 귀하의 니모닉을 확인해주세요')
+        }
+        this.isLoding = false;
+      },
+      async toSignUp() {
+        await this.$router.push('/register');
       }
     },
     mounted() {
