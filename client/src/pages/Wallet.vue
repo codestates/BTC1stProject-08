@@ -45,6 +45,14 @@
   import { ChainType } from "@/dictionary/chainTypeDictionary"
 
   export default {
+    created() {
+      // this.corsRequest();
+      if (!this.$store.state.isSignIn) {
+        this.$router.push('/login');
+      }
+      
+      this.$store.commit('refreshBalance');
+    },
     components: {
       Balance,
       Address,

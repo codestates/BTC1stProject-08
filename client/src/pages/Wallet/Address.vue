@@ -70,10 +70,8 @@ export default {
   },
   methods: {
     initWalletAddress(index) {
-
-      const myWallet = MnemonicWallet.fromMnemonic(mnemonic);
+      const myWallet = this.$store.state.wallet
       // console.log('myWallet', myWallet);
-      setNetwork(TestnetConfig);
       console.log("balanceX", myWallet.getAvaxBalanceX());
       this.walletAddress.activeIndex = index;
 
@@ -86,8 +84,8 @@ export default {
         // console.log(addressP);
         this.walletAddress.activeAddress = addressP;
       } else if(this.walletAddress.activeIndex === 2) {
-        const addressP = myWallet.getAddressP();
-        this.walletAddress.activeAddress = addressP;
+        const addressC = myWallet.getAddressC();
+        this.walletAddress.activeAddress = addressC;
       } else {
         const addressX = myWallet.getAddressX();
         this.walletAddress.activeIndex = 0;
