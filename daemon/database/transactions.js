@@ -17,7 +17,7 @@ module.exports = (sequelize) => sequelize.define('Transactions', {
       type: DataTypes.STRING,
     },
     txTime: {
-        type: DataTypes.TIME,
+        type: DataTypes.DATE,
     },
     txEncod: {
       type: DataTypes.STRING,

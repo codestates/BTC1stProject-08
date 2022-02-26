@@ -5,22 +5,23 @@ const { fuji } = require('../dictionary/avalanchego.dictionary');
 
 const getLastIndexFromAva = async () =>  {
     try {
+        console.log(`${fuji.protocol}://${fuji.host}/ext/index/X/tx`);
         const {data} = await axios({
             method: 'post',
             url: `${fuji.protocol}://${fuji.host}/ext/index/X/tx`,
             data: {
                 jsonrpc: "2.0",
-                id: 0,
+                id: 1,
                 method: "index.getLastAccepted",
                 params: {
                     "encoding": "hex"
                 }
             }
         });
-        console.log('data.index', data.result.index);
         return data.result.index;
     } catch (error) {
-        console.log(`>>> get last index Error ${ error }`);
+        console.log(`>>> 네트워크에서 마지막 트랜잭션 인덱스를 가져오지 못했습니다. ${ error }`);
+        return 1;
     }
 }
 
@@ -30,16 +31,17 @@ const getLastIndexFromDB = async () => {
             where: {
                 txChain: 'X-Chain',
             },
-            order: ['txIndex']
+            order: [['txIndex', 'DESC']]
         });
 
         if (!lastOne) {
-            return 0;
+            return -1;
         }
 
         return lastOne.txIndex;
     } catch(error) {
-        console.log(`>>> get last one Error ${ error }`);
+        console.log(`>>> Database에서 마지막 트랜잭션 인덱스 값을 가져오지 못했습니다. ${ error }`);
+        return 0;
     }
 }
 
@@ -48,9 +50,10 @@ module.exports = async () => {
     try {
         const lastIndexFromAva = await getLastIndexFromAva();
         const lastIndexFromDB = await getLastIndexFromDB();
-        const range = lastIndexFromAva - lastIndexFromDB;
-        if(range <= 0) {
-            console.info(`>>> range is ${range}`);
+        const tempRangerange = lastIndexFromAva - lastIndexFromDB;
+
+        if(tempRangerange <= 0 || lastIndexFromDB === -1) {
+            console.info(`>>> 새로운 데이터가 없습니다. ${tempRangerange}`);
             return;
         }
 
@@ -62,12 +65,15 @@ module.exports = async () => {
                 id     :1,
                 method :"index.getContainerRange",
                 params: {
-                    startIndex: lastIndexFromAva + 1,
-                    numtoFetch: range,
+                    startIndex: Number(lastIndexFromDB) + 1, //바꿔야함
+                    numtoFetch: tempRangerange,
                     encoding:"hex"
                 }
             }
         });
+
+        console.log(data.result)
+        data.result.containers.map(container => console.log("컨테이너", container));
 
         const promiseList = data.result.containers.map(container => Transactions.create({
             txChain: 'X-Chain',
@@ -80,6 +86,6 @@ module.exports = async () => {
         await Promise.all(promiseList);
         console.info('>>> xTransaction Successfully created');
     } catch (error) {
-        console.info(`>>> xTransaction handler error: ${error.message}`);
+        console.info(`>>> xTransaction handler error: ${error}`);
     }
 }
