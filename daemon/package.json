@@ -1,0 +1,19 @@
+{
+  "name": "daemon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "daemon.js",
+  "scripts": {
+    "start": "pm2 start daemon.js --name \"Avax Thumb\" -e ./err.log -o ./out.log",
+    "stop": "pm2 stop daemon.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "mysql2": "^2.3.3",
+    "node-cron": "^3.0.0",
+    "sequelize": "^6.17.0"
+  }
+}
