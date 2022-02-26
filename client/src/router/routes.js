@@ -5,6 +5,9 @@ const CrossChain = () => import("@/pages/CrossChain.vue");
 const ManageKeys = () => import("@/pages/ManageKeys.vue");
 const Login = () => import("@/pages/Login/Login.vue");
 const Register = () => import("@/pages/Register/Regsiter");
+const CChain = () => import("@/pages/Explorer/CChain");
+const XChain = () => import("@/pages/Explorer/XChain");
+const PChain = () => import("@/pages/Explorer/PChain");
 
 const routes = [
   {
@@ -35,6 +38,21 @@ const routes = [
         path: "Register",
         name: "Register",
         component: Register,
+      },
+      {
+        path: "c-chain",
+        name: "c-chain",
+        component: CChain,
+      },
+      {
+        path: "x-chain",
+        name: "x-chain",
+        component: XChain,
+      },
+      {
+        path: "p-chain",
+        name: "p-chain",
+        component: PChain,
       },
     ]
   },
