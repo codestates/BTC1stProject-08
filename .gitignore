@@ -1,3 +1,6 @@
 node_modules
 /server/config/dev.js
 .idea
+/daemon/config/dev.js
+err.log
+out.log
