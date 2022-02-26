@@ -4,7 +4,7 @@
       <div class="col-md-4 px-md-1">
             <label>Amount</label>
             <input class="form-control"
-                   placeholder="0.01"
+                   placeholder="0.00"
                    type="number"
                    step="0.01"
                    v-model="amount">
@@ -43,14 +43,14 @@
   </card>
 </template>
 <script>
-import {setNetwork, numberToBNAvaxX } from "@avalabs/avalanche-wallet-sdk";
+import { numberToBNAvaxX } from "@avalabs/avalanche-wallet-sdk";
 
 export default {
     name: 'SendFormX',
     data() {
       return {
         isLoading: false,
-        amount: 0.00,
+        amount: '',
         to_address: '',
         memo: '',
       };
@@ -58,6 +58,10 @@ export default {
     methods: {
       async deposit() {
         try {
+          if(this.amount === null || this.amount === '' || this.amount < 0.01) {
+            alert('0.01 이상의 값을 입력해주세요');
+            return
+          }
           this.isLoading = true;
           const myWallet = this.$store.state.wallet;
           await myWallet.resetHdIndices();
