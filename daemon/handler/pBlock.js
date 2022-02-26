@@ -2,29 +2,54 @@ const axios = require('axios');
 const { Transactions } = require("../database");
 const { fuji } = require('../dictionary/avalanchego.dictionary');
 
-module.exports = async () => {
+
+const getLastIndexFromAva = async () =>  {
     try {
-        const { lastAccepted } = await axios({
+        const {data} = await axios({
             method: 'post',
             url: `${fuji.protocol}://${fuji.host}/ext/index/X/tx`,
             data: {
                 jsonrpc: "2.0",
-                id: 1,
-                method:"index.getLastAccepted",
+                id: 0,
+                method: "index.getLastAccepted",
                 params: {
-                    "encoding":"hex"
+                    "encoding": "hex"
                 }
             }
         });
-        const lastAcceptedIndex = lastAccepted.txIndex;
+        console.log('data.index',data.result.index);
+        return data.result.index;
+    } catch (error) {
+        console.log(`>>> get last index Error ${ error }`);
+    }
+}
 
+const getLastIndexFromDB = async () => {
+    try {
         const lastOne = await Transactions.findOne({
-            where: {txChain: 'P-Block'},
+            where: {
+                txChain: 'P-Block',
+            },
             order: ['txIndex']
-        })
-        const range = lastAcceptedIndex - lastOne.txIndex;
+        });
 
-        if(range === 0) {
+        if (!lastOne) {
+            return 0;
+        }
+
+        return lastOne.txIndex;
+    } catch(error) {
+        console.log(`>>> get last one Error ${ error }`);
+    }
+}
+
+
+module.exports = async () => {
+    try {
+        const lastIndexFromAva = await getLastIndexFromAva();
+        const lastIndexFromDB = await getLastIndexFromDB();
+        const range = lastIndexFromAva - lastIndexFromDB;
+        if(range <= 0) {
             console.info(`>>> range is ${range}`);
             return;
         }
@@ -37,23 +62,22 @@ module.exports = async () => {
                 id     :1,
                 method :"index.getContainerRange",
                 params: {
-                    startIndex:lastAcceptedIndex + 1,
-                    numtoFetch:range + 0,
+                    startIndex: lastIndexFromAva + 1,
+                    numtoFetch: range,
                     encoding:"hex"
                 }
             }
         });
 
-        for ( const one in data ) {
-            await Transactions.create({
-                txChain: 'P-Block',
-                txId: one.result.id,
-                txByte: one.result.bytes,
-                txTime: one.result.timestamp,
-                txEncod: one.result.encoding,
-                txIndex: one.result.index,
-            })
-        }
+        const promiseList = data.result.containers.map(container => Transactions.create({
+            txChain: 'P-Block',
+            txId: container.id,
+            txByte: container.bytes,
+            txTime: container.timestamp,
+            txEncod: container.encoding,
+            txIndex: container.index,
+        }));
+        await Promise.all(promiseList);
         console.info('>>> xTransaction Successfully created');
     } catch (error) {
         console.info(`>>> xTransaction handler error: ${error.message}`);
