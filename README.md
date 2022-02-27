@@ -42,3 +42,4 @@
 - Node.js
 - Aws RDS ( MySQL )
 - Sequelize ORM
+- pm2
