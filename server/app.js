@@ -4,28 +4,10 @@ const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const mysql = require('mysql');
-const config = require('./config/key');
-
 const indexRouter = require('./routes/index');
-
 const app = express();
 
-const connection = mysql.createConnection({
-    host: config.mysql_URI.host, // 호스트 주소
-    port: config.mysql_URI.port, // port
-    user: config.mysql_URI.user, // mysql user
-    password: config.mysql_URI.password, // mysql password
-    database: config.mysql_URI.database, // mysql 데이터베이스
-  });
 
-connection.connect((err) => {
-    if (err) {
-      console.error('mysql error connecting: ', err.stack);
-      return;
-    }
-    console.log('mysql connected as id ', connection.threadId);
-  });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
