@@ -11,6 +11,7 @@
     "dependencies": {
         "@avalabs/avalanche-wallet-sdk": "^0.14.5",
         "avalanche": "^3.12.0",
+        "axios": "^0.26.0",
         "body-parser": "^1.19.2",
         "concurrently": "^7.0.0",
         "cookie-parser": "~1.4.4",
@@ -20,7 +21,9 @@
         "http-errors": "~1.6.3",
         "morgan": "~1.9.1",
         "mysql": "^2.18.1",
-        "pug": "2.0.0-beta11"
+        "mysql2": "^2.3.3",
+        "pug": "2.0.0-beta11",
+        "sequelize": "^6.17.0"
     },
     "devDependencies": {
         "eslint": "^8.9.0",

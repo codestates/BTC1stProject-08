@@ -1,9 +1,6 @@
 const express = require('express');
-const mysql = require('mysql');
-const userRouter = require('./user/users');
+const transactionRouter = require('./trans/transactions');
 
 const app = express();
-
-app.use('/users', userRouter);
-
+app.use('/tx', transactionRouter);
 module.exports = app;
