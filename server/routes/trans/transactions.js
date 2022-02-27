@@ -1,5 +1,6 @@
 const express = require('express');
 const trans = require('../../controllers/transaction');
+const nodeinfo = require('../../controllers/nodeinfo');
 
 const router = express.Router();
 
@@ -9,5 +10,10 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/alltransactions', trans.alltransaction);
+
+
+router.get('/networkinfo', nodeinfo.node)
+
+
 
 module.exports = router;
