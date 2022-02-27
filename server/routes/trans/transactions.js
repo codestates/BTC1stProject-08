@@ -11,9 +11,9 @@ router.get('/', (req, res, next) => {
 
 router.get('/alltransactions', trans.alltransaction);
 
+router.get('/transaction', trans.transaction);
 
 router.get('/networkinfo', nodeinfo.node)
-
 
 
 module.exports = router;
