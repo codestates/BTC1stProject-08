@@ -5,7 +5,6 @@ const { fuji } = require('../dictionary/avalanchego.dictionary');
 
 const getLastIndexFromAva = async () =>  {
     try {
-        console.log(`${fuji.protocol}://${fuji.host}/ext/index/X/tx`);
         const {data} = await axios({
             method: 'post',
             url: `${fuji.protocol}://${fuji.host}/ext/index/X/tx`,
@@ -35,7 +34,7 @@ const getLastIndexFromDB = async () => {
         });
 
         if (!lastOne) {
-            return -1;
+            return 0;
         }
 
         return lastOne.txIndex;
@@ -52,7 +51,7 @@ module.exports = async () => {
         const lastIndexFromDB = await getLastIndexFromDB();
         const tempRangerange = lastIndexFromAva - lastIndexFromDB;
 
-        if(tempRangerange <= 0 || lastIndexFromDB === -1) {
+        if(tempRangerange <= 0) {
             console.info(`>>> 새로운 데이터가 없습니다. ${tempRangerange}`);
             return;
         }
@@ -71,9 +70,6 @@ module.exports = async () => {
                 }
             }
         });
-
-        console.log(data.result)
-        data.result.containers.map(container => console.log("컨테이너", container));
 
         const promiseList = data.result.containers.map(container => Transactions.create({
             txChain: 'P-Block',

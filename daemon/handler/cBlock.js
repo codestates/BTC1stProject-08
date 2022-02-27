@@ -35,7 +35,7 @@ const getLastIndexFromDB = async () => {
         });
 
         if (!lastOne) {
-            return -1;
+            return 0;
         }
 
         return lastOne.txIndex;
@@ -52,7 +52,7 @@ module.exports = async () => {
         const lastIndexFromDB = await getLastIndexFromDB();
         const tempRangerange = lastIndexFromAva - lastIndexFromDB;
 
-        if(tempRangerange <= 0 || lastIndexFromDB === -1) {
+        if(tempRangerange <= 0) {
             console.info(`>>> 새로운 데이터가 없습니다. ${tempRangerange}`);
             return;
         }
