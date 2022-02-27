@@ -1,5 +1,6 @@
-# 아발란체 Avalanche(AVAX)
+#💰 아발란체 Avalanche(AVAX)
 #### make by 아벡썸 (Avax Thumb)
+#### 팀원 : 김현식, 문다훈, 임지영
 
 
 
@@ -12,14 +13,20 @@
 - 송금 
 - Cross Chain
 
+### Explorer 기능 
+
 
 
 # Front ( Wallet , Explorer )
 - Vue.js
 - Vuex
 
-
 # Back ( Explorer )
 - Node.js
 - Aws Rds ( MySQL )
--
+
+# Daemon ( Explorer )
+- Node.JS
+- AWS RDS(Mysql)
+- sequelize
+- PM2
