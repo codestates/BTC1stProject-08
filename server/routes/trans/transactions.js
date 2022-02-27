@@ -14,8 +14,8 @@ router.get('/alltransactions', trans.alltransaction);
 router.get('/xtransactions', trans.xTransactions);
 router.get('/ptransactions', trans.pTransactions);
 router.get('/ctransactions', trans.cTransactions);
-router.get('/transaction', trans.transaction);
-
+router.get('/normaltransaction', trans.normaltransaction);
+router.get('/ctransaction', trans.cTransactions);
 router.get('/networkinfo', nodeinfo.node)
 
 

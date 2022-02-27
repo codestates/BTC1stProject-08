@@ -4,6 +4,14 @@ const { asyncWrapper } = require('../utils/asyncWrapper');
 const { localNode } = require('../config/dev');
 const config = require(__dirname + '/../config/key');
 
+
+
+
+/**
+ * 로컬 노드 정보 조회
+ * 
+ * @req : null
+ */
 const node = asyncWrapper(async (req) => {
     const netid = await getNetworkId();
     const netname = await getNetworkName();
