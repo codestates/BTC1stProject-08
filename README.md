@@ -1,5 +1,5 @@
 
-#💰 아발란체 Avalanche(AVAX)
+# 💰 아발란체 Avalanche(AVAX)
 
 ### make by 아벡썸 (Avax Thumb)
 #### 팀원 : 김현식, 문다훈, 임지영
