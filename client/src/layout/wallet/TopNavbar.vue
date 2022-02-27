@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-absolute"
+  <nav class="navbar navbar-expand-lg navbar-absolute" v-if="$store.state.isSignIn"
        :class="{'bg-white': showMenu, 'navbar-transparent': !showMenu}">
     <div class="container-fluid">
       <div class="navbar-wrapper">
@@ -44,7 +44,7 @@
                 </p>
               </a>
               <li class="nav-link">
-                <a href="#" class="nav-item dropdown-item">Log out</a>
+                <a href="#" class="nav-item dropdown-item" @click="logout">Log out</a>
               </li>
             </base-dropdown>
           </ul>
@@ -55,12 +55,10 @@
 </template>
 <script>
   import { CollapseTransition } from 'vue2-transitions';
-  import Modal from '@/components/Modal';
 
   export default {
     components: {
       CollapseTransition,
-      Modal
     },
     computed: {
       routeName() {
@@ -80,6 +78,10 @@
       };
     },
     methods: {
+      logout() {
+        alert('로그아웃됩니다.');
+        location.reload();
+      },
       capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
       },
@@ -102,4 +104,7 @@
   };
 </script>
 <style>
+.logout {
+  color: black;
+}
 </style>

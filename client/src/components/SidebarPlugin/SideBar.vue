@@ -11,7 +11,7 @@
         <a aria-label="sidebar mini logo"
            class="simple-text logo-mini">
         </a>
-        <a class="simple-text logo-normal" @click="$router.push('/')">
+        <a class="simple-text logo-normal" @click="$store.state.isSignIn ? $router.push('/wallet') : $router.push('/login')">
           {{title_wallet}}
         </a>
       </div>

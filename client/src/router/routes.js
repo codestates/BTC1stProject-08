@@ -5,9 +5,12 @@ const CrossChain = () => import("@/pages/CrossChain.vue");
 const ManageKeys = () => import("@/pages/ManageKeys.vue");
 const Login = () => import("@/pages/Login/Login.vue");
 const Register = () => import("@/pages/Register/Regsiter");
-const CChain = () => import("@/pages/Explorer/CChain");
-const XChain = () => import("@/pages/Explorer/XChain");
-const PChain = () => import("@/pages/Explorer/PChain");
+// const CChain = () => import("@/pages/Explorer/CChain");
+// const XChain = () => import("@/pages/Explorer/XChain");
+const XChainDetail = () => import("@/pages/Explorer/XChainDetail");
+const CChainDetail = () => import("@/pages/Explorer/CChainDetail");
+const PChainDetail = () => import("@/pages/Explorer/PChainDetail");
+// const PChain = () => import("@/pages/Explorer/PChain");
 
 const routes = [
   {
@@ -42,17 +45,17 @@ const routes = [
       {
         path: "c-chain",
         name: "c-chain",
-        component: CChain,
+        component: CChainDetail,
       },
       {
         path: "x-chain",
         name: "x-chain",
-        component: XChain,
+        component: XChainDetail,
       },
       {
         path: "p-chain",
         name: "p-chain",
-        component: PChain,
+        component: PChainDetail,
       },
     ]
   },

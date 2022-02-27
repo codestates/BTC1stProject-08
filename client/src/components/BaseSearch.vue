@@ -1,6 +1,6 @@
 <template>
   <div class="search-bar input-group">
-    <input type="text" class="form-control" :value="keyword" @keyup.enter="$emit('click')" placeholder="Search by Address / Txn Hash / Block / Token">
+    <input type="text" class="form-control" :value="keyword" @change="onChange" @keyup.enter="$emit('click')" placeholder="Search by Address / TxID">
     <div class="input-group-addon" @click="$emit('click')"><i class="tim-icons icon-zoom-split"></i></div>
   </div>
 </template>
@@ -12,6 +12,11 @@ export default {
       type: [String, Number],
     },
   },
+  methods: {
+    onChange({ target }) {
+      this.$emit('change', target.value);
+    }
+  }
 };
 </script>
 <style lang="scss">
