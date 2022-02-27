@@ -183,12 +183,11 @@ const normaltransaction = asyncWrapper(async (req) => {
 const ctransaction = asyncWrapper(async (req) => {
     try {
         const txid = req.query.txId;
-        const tx = await avaxNet.getTxEvm(txid)
-
+        const tx = await avaxNet.getTxEvm(txid);
         return {
             status: 200,
             message: '성공',
-            data: tx,
+            data: tx || null,
         };
     } catch (e) { 
         console.log(e)
@@ -208,5 +207,5 @@ module.exports = {
     pTransactions,
     cTransactions,
     normaltransaction,
-    ctransaction
+    ctransaction,
 };

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  // import axios from 'axios'
+  import axios from 'axios'
 
   export default {
     created() {
@@ -27,15 +27,15 @@
         let root = document.getElementsByTagName('html')[0];
         root.classList.toggle('nav-open');
       },
-      // corsRequest() {
-      //   axios.get("/api/users")
-      //   .then((res) => {
-      //     console.log('#### corsRequest res', res)
-      //   })
-      //   .catch((error) => {
-      //     console.log('#### corsRequest error', error)
-      //   })
-      // },
+      corsRequest() {
+        axios.get("/api")
+        .then((res) => {
+          console.log('#### corsRequest res', res)
+        })
+        .catch((error) => {
+          console.log('#### corsRequest error', error)
+        })
+      },
     },
     mounted() {
       this.$watch('$route', this.disableRTL, { immediate: true });

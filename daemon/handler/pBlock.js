@@ -28,7 +28,7 @@ const getLastIndexFromDB = async () => {
     try {
         const lastOne = await Transactions.findOne({
             where: {
-                txChain: 'P-Block',
+                txChain: 'P-Chain',
             },
             order: [['txIndex', 'DESC']]
         });
@@ -72,7 +72,7 @@ module.exports = async () => {
         });
 
         const promiseList = data.result.containers.map(container => Transactions.create({
-            txChain: 'P-Block',
+            txChain: 'P-Chain',
             txId: container.id,
             txByte: container.bytes,
             txTime: container.timestamp,

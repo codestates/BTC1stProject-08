@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "@avalabs/avalanche-wallet-sdk": "^0.14.5",
+    "avalanche": "^3.12.0",
     "axios": "^0.26.0",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
     "material-icons": "^1.10.7",
+    "moment": "^2.29.1",
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",
@@ -21,6 +23,7 @@
     "vue-router": "^3.3.4",
     "vue-router-prefetch": "^1.6.0",
     "vue2-transitions": "^0.3.0",
+    "vuejs-paginate": "^2.1.0",
     "vuex": "^3.1.2"
   },
   "devDependencies": {

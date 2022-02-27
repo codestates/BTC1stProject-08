@@ -7,9 +7,9 @@
         <sidebar-link v-if="isLogin" to="/manage_keys" :name="$t('sidebar.manage_keys')" icon="qr_code_2"/>
       </template>
       <template slot="explorer-links">
-        <sidebar-link to="/c-chain" name="C Chain" icon="layers"/>
         <sidebar-link to="/x-chain" name="X Chain" icon="monetization_on"/>
         <sidebar-link to="/p-chain" name="P Chain" icon="savings"/>
+        <sidebar-link to="/c-chain" name="C Chain" icon="layers"/>
       </template>
     </side-bar>
     <div class="main-panel">
@@ -19,7 +19,7 @@
 
       </dashboard-content>
 
-      <content-footer></content-footer>
+<!--      <content-footer></content-footer>-->
     </div>
   </div>
 </template>
