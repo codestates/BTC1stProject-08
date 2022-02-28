@@ -48,8 +48,7 @@ const getLastIndexFromDB = async () => {
 module.exports = async () => {
     try {
         const lastIndexFromAva = await getLastIndexFromAva();
-        const lastIndexFromDB = await getLastIndexFromDB();
-
+        const lastIndexFromDB = (await getLastIndexFromDB() | 0);
         const tempRangerange = lastIndexFromAva - lastIndexFromDB;
 
         if(tempRangerange <= 0) {
@@ -66,7 +65,7 @@ module.exports = async () => {
                 method :"index.getContainerRange",
                 params: {
                     startIndex: Number(lastIndexFromDB) + 1, //바꿔야함
-                    numtoFetch: tempRangerange,
+                    numtoFetch: 10,
                     encoding:"hex"
                 }
             }

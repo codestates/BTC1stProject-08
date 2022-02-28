@@ -5,10 +5,10 @@ const { fuji } = require('../dictionary/avalanchego.dictionary');
 
 const getLastIndexFromAva = async () =>  {
     try {
-        console.log(`${fuji.protocol}://${fuji.host}/ext/index/X/tx`);
+        console.log(`${fuji.protocol}://${fuji.host}/ext/index/C/block`);
         const {data} = await axios({
             method: 'post',
-            url: `${fuji.protocol}://${fuji.host}/ext/index/X/tx`,
+            url: `${fuji.protocol}://${fuji.host}/ext/index/C/block`,
             data: {
                 jsonrpc: "2.0",
                 id: 1,
@@ -49,7 +49,7 @@ const getLastIndexFromDB = async () => {
 module.exports = async () => {
     try {
         const lastIndexFromAva = await getLastIndexFromAva();
-        const lastIndexFromDB = await getLastIndexFromDB();
+        const lastIndexFromDB = (await getLastIndexFromDB()|0);
         const tempRangerange = lastIndexFromAva - lastIndexFromDB;
 
         if(tempRangerange <= 0) {
@@ -59,20 +59,19 @@ module.exports = async () => {
 
         const { data } = await axios({
             method: 'post',
-            url: `${fuji.protocol}://${fuji.host}/ext/index/X/tx`,
+            url: `${fuji.protocol}://${fuji.host}/ext/index/C/block`,
             data: {
                 jsonrpc:"2.0",
                 id     :1,
                 method :"index.getContainerRange",
                 params: {
                     startIndex: Number(lastIndexFromDB) + 1, //바꿔야함
-                    numtoFetch: tempRangerange,
+                    numtoFetch: 10,
                     encoding:"hex"
                 }
             }
         });
 
-        console.log(data.result)
         data.result.containers.map(container => console.log("컨테이너", container));
 
         const promiseList = data.result.containers.map(container => Transactions.create({
@@ -84,8 +83,8 @@ module.exports = async () => {
             txIndex: container.index,
         }));
         await Promise.all(promiseList);
-        console.info('>>> xTransaction Successfully created');
+        console.info('>>> cTransaction Successfully created');
     } catch (error) {
-        console.info(`>>> xTransaction handler error: ${error}`);
+        console.info(`>>> cTransaction handler error: ${error}`);
     }
 }
