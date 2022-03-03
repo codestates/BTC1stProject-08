@@ -147,9 +147,8 @@ export default {
       }
 
       this.loading = true;
-      const isAddress = this.keyword.startsWith('0x');
+      const isAddress = this.keyword.startsWith('0x9');
       if (isAddress) {
-        alert('C-체인의 지갑 정보는 조회되지 않습니다.')
         try {
           const { data } = await this.$axios.post(`${Network.apiNetwork.protocol}://${Network.apiNetwork.host}/ext/bc/C/rpc`,{
             "jsonrpc":"2.0",
