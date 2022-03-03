@@ -73,6 +73,7 @@ import { bnToAvaxX } from '@avalabs/avalanche-wallet-sdk'
 import BaseSearch from '@/components/BaseSearch';
 import BaseTable from "@/components/BaseTable";
 import moment from "moment";
+import {Network} from "@/dictionary/networkDictionary";
 
 export default {
   name: 'CChain',
@@ -146,42 +147,43 @@ export default {
       }
 
       this.loading = true;
-      const isAddress = this.keyword.startsWith('0x9');
+      const isAddress = this.keyword.startsWith('0x');
       if (isAddress) {
         alert('C-체인의 지갑 정보는 조회되지 않습니다.')
-        // try {
-        //   const { data } = await this.$axios.post(`${Network.apiNetwork.protocol}://${Network.apiNetwork.host}/ext/bc/X`,{
-        //     "jsonrpc":"2.0",
-        //     "id"     : 1,
-        //     "method" :"avm.getAllBalances",
-        //     "params" :{
-        //       "address": this.keyword,
-        //     }
-        //   });
-        //
-        //   this.balance = this.parseXBalance(data.result.balances.find(data => data.asset === 'AVAX').balance);
-        //   this.addressDetails.data = [
-        //     {
-        //       type: 'Locked',
-        //       amount: '0 AVAX',
-        //     },
-        //     {
-        //       type: 'Unlocked',
-        //       amount: `${this.balance} AVAX`,
-        //     },
-        //     {
-        //       type: 'Staked',
-        //       amount: '0 AVAX',
-        //     },
-        //     {
-        //       type: 'Total Balance',
-        //       amount: '0 AVAX',
-        //     },
-        //   ];
-        //   this.type = 'address';
-        // } catch (error) {
-        //   console.info(error);
-        // }
+        try {
+          const { data } = await this.$axios.post(`${Network.apiNetwork.protocol}://${Network.apiNetwork.host}/ext/bc/C/rpc`,{
+            "jsonrpc":"2.0",
+            "id"     : 1,
+            "method" :"eth_getBalance",
+            "params" :[
+              this.keyword,
+              "latest"
+                ]
+          });
+
+          this.balance = this.parseXBalance(data.result.balances.find(data => data.asset === 'AVAX').balance);
+          this.addressDetails.data = [
+            {
+              type: 'Locked',
+              amount: '0 AVAX',
+            },
+            {
+              type: 'Unlocked',
+              amount: `${this.balance} AVAX`,
+            },
+            {
+              type: 'Staked',
+              amount: '0 AVAX',
+            },
+            {
+              type: 'Total Balance',
+              amount: '0 AVAX',
+            },
+          ];
+          this.type = 'address';
+        } catch (error) {
+          console.info(error);
+        }
       } else {
         // transaction search
         try {
